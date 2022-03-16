@@ -172,8 +172,6 @@ function addTest(string, test) {
 }
 
 function addRandomTypes({type, subType}) {
-  console.log(type);
-  console.log('subType', subType);
   let value;
   if (type.toLowerCase() === "string") {
     value = '"qwertyuiop"'

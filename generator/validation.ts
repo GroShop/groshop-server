@@ -8,6 +8,6 @@ export const edit_MNS_ = Joi.object({
   _VE_
 });
 
-export const edit_MNS_ = Joi.object({
+export const delete_MNS_ = Joi.object({
   _MN__id: Joi.string().required(),
 });
