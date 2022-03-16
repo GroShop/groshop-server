@@ -127,6 +127,11 @@ async function main() {
     const newTest = fs.createWriteStream(`./__test__/${generator.moduleName.toLowerCase()}.test.ts`, { flags: "w" });
     const testString = replaceName(test);
     newTest.write(addTest(testString, testObj));
+
+    //Constant
+    let constant = await fsPromise.readFile("./generator/response.ts", "utf8");
+    const newConstant = fs.createWriteStream(`./src/constants/response.constant.ts`, { flags: "a" });
+    newConstant.write(replaceName(constant));
   } catch (error) {
     console.log(error);
   }

@@ -11,12 +11,12 @@ const _MN_Controller = {
       const create_MNS_ = await _MN_Service.create_MNS_(req.body);
       if (create_MNS_) {
         res.send({
-          status: STATUS.success,
+          status: STATUS.SUCCESS,
           message: _MNC__RESPONSE.CREATE_SUCCESS,
           data: create_MNS_,
         });
       } else {
-        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.success, message: _MNC__RESPONSE.CREATE_FAILED });
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.SUCCESS, message: _MNC__RESPONSE.CREATE_FAILED });
       }
     } catch (err) {
       err.description = _MNC__RESPONSE.CREATE_FAILED;
@@ -28,7 +28,7 @@ const _MN_Controller = {
       const { _MN__id } = req.body;
       const get_MNS_ = await _MN_Service.get_MNS_({ _id: _MN__id });
       if (!_.isEmpty(get_MNS_)) {
-        res.send({ status: STATUS.success, message: _MNC__RESPONSE.GET_SUCCESS, data: get_MNS_ });
+        res.send({ status: STATUS.SUCCESS, message: _MNC__RESPONSE.GET_SUCCESS, data: get_MNS_ });
       } else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.failed, message: _MNC__RESPONSE.GET_FAILED });
       }
@@ -53,7 +53,7 @@ const _MN_Controller = {
       }
       const getMany_MNS_ = await _MN_Service.getMany_MNS_WithPagination(query, { skip, limit });
       res.send({
-        status: STATUS.success,
+        status: STATUS.SUCCESS,
         message: _MNC__RESPONSE.GET_MANY_SUCCESS,
         data: getMany_MNS_,
       });
@@ -65,16 +65,16 @@ const _MN_Controller = {
   edit_MNS_: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { _MN__id, ...body } = req.body;
-      const edit_MNS_ = await _MN_Service.edit_MNS_({ _id: _MN__id, user: req.decoded.id }, body);
+      const edit_MNS_ = await _MN_Service.edit_MNS_({ _id: _MN__id }, body);
       if (edit_MNS_) {
         const query = {
-          user: req.decoded.id,
+          _id: _MN__id,
         };
-        const getMany_MNS_ = await _MN_Service.getMany_MNS_(query);
+        const get_MNS_ = await _MN_Service.getMany_MNS_(query);
         res.send({
-          status: STATUS.success,
+          status: STATUS.SUCCESS,
           message: _MNC__RESPONSE.EDIT_SUCCESS,
-          data: getMany_MNS_,
+          data: get_MNS_,
         });
       } else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.failed, message: _MNC__RESPONSE.EDIT_FAILED });
@@ -90,7 +90,7 @@ const _MN_Controller = {
       const delete_MNS_ = await _MN_Service.delete_MNS_({ _id: _MN__id, user: req.decoded.id });
       if (delete_MNS_) {
         res.send({
-          status: STATUS.success,
+          status: STATUS.SUCCESS,
           message: _MNC__RESPONSE.DELETE_SUCCESS,
         });
       } else {

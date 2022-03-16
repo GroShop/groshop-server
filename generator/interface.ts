@@ -7,8 +7,9 @@ export interface I_MNS_ {
 export interface ICreate_MNS_ {
   _IMC_
 }
-export interface IGet_MNS_ {
-  _id: string;
+export interface IQuery_MNS_ {
+  _id?: string;
+  is_deleted ?: boolean;
   _IMG_
 }
 export interface IPagination_MNS_ extends IPaginationResponse {

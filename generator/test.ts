@@ -41,7 +41,7 @@ describe("_MN_ Test", () => {
     let body: any = {
       _TCB_
     }
-    const response: any = await request(app).post("/api/v1/_MN_/get_many__MN_").set("authorization", token).send(body);
+    const response: any = await request(app).post("/api/v1/_MN_/create__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
     expect(typeof response.body.data).toBe("object");
@@ -83,7 +83,7 @@ describe("_MN_ Test", () => {
     let body: any = {
       _MN__id: _MN__id,
     };
-    const response: any = await request(app).post("/api/v1/auth/edit__MN_").set("authorization", token).send(body);
+    const response: any = await request(app).post("/api/v1/auth/delete__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
   });
 });
