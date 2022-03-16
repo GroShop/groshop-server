@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const createUser = Joi.object({
+export const createUser = Joi.object({
   email: Joi.string().email().required(),
   phone: Joi.string()
     .regex(/[0-9]{10}/)
@@ -10,7 +10,7 @@ const createUser = Joi.object({
   username: Joi.string().required(),
 });
 
-const editUser = Joi.object({
+export const editUser = Joi.object({
   phone: Joi.string()
     .regex(/[0-9]{10}/)
     .optional(),
@@ -20,12 +20,12 @@ const editUser = Joi.object({
   id: Joi.string().required(),
 });
 
-const userLogin = Joi.object({
+export const userLogin = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
 
-const socialLogin = Joi.object({
+export const socialLogin = Joi.object({
   first_name: Joi.string().optional(),
   last_name: Joi.string().optional(),
   username: Joi.string().optional(),
@@ -33,21 +33,12 @@ const socialLogin = Joi.object({
   social_account_type: Joi.string().required(),
 });
 
-const login = Joi.object({
+export const login = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
 
-const resetPassword = Joi.object({
+export const resetPassword = Joi.object({
   reset_password_hash: Joi.string().required(),
   password: Joi.string().required(),
 });
-
-export default {
-  createUser,
-  userLogin,
-  socialLogin,
-  login,
-  resetPassword,
-  editUser,
-};

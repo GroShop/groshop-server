@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserController from "../../controllers/user.controller";
-import Validation from "../../helpers/validation.helper";
+import * as Validation from "../../helpers/validation.helper";
 import expressValidator from "express-joi-validation";
 const validator = expressValidator.createValidator({});
 const router = Router();
