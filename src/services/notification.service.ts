@@ -103,7 +103,7 @@ const notificationService = {
           const str = notification.body;
           const result = getFromBetween.get(str, "{{", "}}");
           if (result.length) {
-            result.map((mf) => {
+            result.map(mf => {
               notification.body = notification.body.replace(
                 `{{${mf}}}`,
                 Array.isArray(notification.merge_fields[mf]) ? arrayToText(notification.merge_fields[mf]) : notification.merge_fields[mf]

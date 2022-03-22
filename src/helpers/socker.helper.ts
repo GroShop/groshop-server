@@ -4,7 +4,7 @@ import { USER_RESPONSE } from "../constants/response.constant";
 const initSocketIO = (io: any) => {
   let chatRooms = {}; //Don't use this to emit message
   let isAuthenticated = false;
-  io.on("connection", (socket) => {
+  io.on("connection", socket => {
     // Socket Authentication
     if (socket.handshake.query && socket.handshake.query.token) {
       const token = socket.handshake.query.token.replace("Bearer ", "");

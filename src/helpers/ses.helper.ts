@@ -38,11 +38,11 @@ const Mail = (from: string, to: string, subject: string, text: string, html: any
     console.log("subject", subject);
 
     sendEmail
-      .then((data) => {
+      .then(data => {
         console.log("email submitted to SES", data);
         resolve(true);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("SES Error", error);
         reject(error);
       });

@@ -24,7 +24,7 @@ export const download = (url, path, callback) => {
   });
 };
 
-export const migrateImageToS3 = (url) => {
+export const migrateImageToS3 = url => {
   return new Promise((resolve, reject) => {
     let filename = Date.now() + ".jpg";
     let localPath = "assets/images/" + filename;
@@ -33,7 +33,7 @@ export const migrateImageToS3 = (url) => {
       const cb = uploadFile(localPath, filename);
       if (cb) {
         resolve(location);
-        fs.unlink(localPath, (err) => {
+        fs.unlink(localPath, err => {
           if (err) throw err;
           console.log(`successfully deleted ${localPath}`);
         });

@@ -107,7 +107,7 @@ const UserService = {
     let limit = query?.limit || 20;
     let users: IUserArray = await User.find(query, USER_HIDDEN_FIELDS).skip(page).limit(limit).lean();
     if (query.user_id) {
-      let index = await users.findIndex((user) => user._id.toString() === query.user_id.toString());
+      let index = await users.findIndex(user => user._id.toString() === query.user_id.toString());
       if (index === -1) {
         let req: any = {
           _id: query.user_id,

@@ -4,7 +4,7 @@ import morganBody from "morgan-body";
 
 function Logger(app) {
   const loggerStream = {
-    write: (message) => {
+    write: message => {
       console.log(message);
     },
   };

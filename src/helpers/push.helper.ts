@@ -7,7 +7,7 @@ const fcmInit = () => {
   fcm = new FCM(process.env.FIREBASE_SERVER_KEY);
 };
 
-const sendPushNotification = (data) => {
+const sendPushNotification = data => {
   return new Promise((resolve, reject) => {
     var message = {
       to: data.token,
