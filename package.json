@@ -9,6 +9,7 @@
     "prod": "tsc && node dist/src/index.js",
     "deploy": "./deploy.sh",
     "generate": "node generator/generate",
+    "postgenerate": "npx prettier --write .",
     "test:single": "jest --runInBand --forceExit --coverage --"
   },
   "author": "",
