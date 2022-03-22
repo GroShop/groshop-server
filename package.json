@@ -7,7 +7,9 @@
     "test": "jest --runInBand --forceExit --coverage",
     "start": "NODE_ENV=dev ts-node-dev --respawn --transpile-only src/index.ts",
     "prod": "tsc && node dist/src/index.js",
-    "deploy": "./deploy.sh"
+    "deploy": "./deploy.sh",
+    "generate": "node generator/generate",
+    "test:single": "jest --runInBand --forceExit --coverage --"
   },
   "author": "",
   "license": "ISC",

@@ -13,7 +13,7 @@ import { initAWS } from "./helpers/s3.helper";
 import initSocketIO from "./helpers/socker.helper";
 
 import authRoute from "./routes/v1/user.route";
-import areaRoute from "./routes/v1/area.route";
+//_NR_
 
 // create server
 const app = express();
@@ -70,7 +70,7 @@ app.use(fileUpload());
 
 // routes
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/area", areaRoute);
+//_NRD_
 
 //Error Handling
 app.use(function (err, req, res, next) {

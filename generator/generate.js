@@ -139,6 +139,12 @@ async function main() {
     let constant = await fsPromise.readFile("./generator/response.ts", "utf8");
     const newConstant = fs.createWriteStream(`./src/constants/response.constant.ts`, { flags: "a" });
     newConstant.write(replaceName(constant));
+
+    //Define Route
+    let app = await fsPromise.readFile("./src/app.ts", "utf8");
+    const newApp = fs.createWriteStream(`./src/app.ts`, { flags: "w" });
+    let newRouteString = defineRoute(app);
+    newApp.write(replaceName(newRouteString));
   } catch (error) {
     console.log(error);
   }
@@ -149,6 +155,16 @@ function replaceName(string) {
   str = str.replace(new RegExp("_MN_", "g"), generator.moduleName.toLowerCase());
   str = str.replace(new RegExp("_MNC_", "g"), generator.moduleName.toUpperCase());
   str = str.replace("// @ts-nocheck", "");
+  return str;
+}
+
+function defineRoute(string) {
+  let moduleName = generator.moduleName.toLowerCase();
+  let NR = `import ${moduleName}Route from "./routes/v1/${moduleName}.route";\n//_NR_`;
+  let NRD = `app.use("/api/v1/${moduleName}", ${moduleName}Route);\n//_NRD_`;
+
+  let str = string.replace(new RegExp("//_NR_", "g"), NR);
+  str = str.replace(new RegExp("//_NRD_", "g"), NRD);
   return str;
 }
 
