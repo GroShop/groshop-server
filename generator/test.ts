@@ -42,7 +42,7 @@ describe("_MN_ Test", () => {
   test("Create _MNS_", async () => {
     let body: any = {
       _TCB_
-    }
+    };
     const response: any = await request(app).post("/api/v1/_MN_/create__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
@@ -53,8 +53,8 @@ describe("_MN_ Test", () => {
 
   test("Get _MNS_", async () => {
     let body: any = {
-      _MN__id: _MN__id,
-    }
+      _MN__id: _MN__id
+    };
     const response: any = await request(app).post("/api/v1/_MN_/get__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
@@ -64,8 +64,8 @@ describe("_MN_ Test", () => {
 
   test("Get Many _MNS_", async () => {
     let body: any = {
-      search: "qwertyuiop"
-    }
+      search: "qwertyuiop",
+    };
     const response: any = await request(app).post("/api/v1/_MN_/get_many__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
@@ -87,7 +87,7 @@ describe("_MN_ Test", () => {
 
   test("Delete _MNS_", async () => {
     let body: any = {
-      _MN__id: _MN__id,
+      _MN__id: _MN__id
     };
     const response: any = await request(app).post("/api/v1/_MN_/delete__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);

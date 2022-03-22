@@ -11,7 +11,7 @@ const config = {
       isSearchable: true,
       isEditable: true,
     },
-  ]
-}
+  ],
+};
 
 module.exports = config;

@@ -2,20 +2,16 @@ const fsPromise = require("fs").promises;
 const fs = require("fs");
 let moduleName;
 process.argv.forEach(function (val, index, array) {
-  if(index === 2){
+  if (index === 2) {
     moduleName = val;
   }
 });
 const generator = require(`../config/generator/${moduleName}.js`);
 
-
 function toTitleCase(str) {
-  return str.replace(
-    /\w\S*/g,
-    function (txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    }
-  );
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 }
 
 async function main() {
@@ -67,17 +63,19 @@ async function main() {
     let interfaceModuleCreate = ``;
     let interfaceModuleGet = ``;
     let interfaceModuleEdit = ``;
-    generator.parameters.forEach((param) => {
+    generator.parameters.forEach(param => {
       if (param.ref) {
-        interfaceModule += `${param.name} ?: I${toTitleCase(param.ref)};\n`
-        interfaceModuleCreate += `  ${param.name} ${param.isRequired ? ":" : "?:"} I${toTitleCase(param.ref)};\n`
-        interfaceModuleGet += `  ${param.name} ?: I${toTitleCase(param.ref)};\n`
-        interfaceModuleEdit += `  ${param.name} ?: I${toTitleCase(param.ref)};\n`
+        interfaceModule += `${param.name} ?: I${toTitleCase(param.ref)};\n`;
+        interfaceModuleCreate += `  ${param.name} ${param.isRequired ? ":" : "?:"} I${toTitleCase(param.ref)};\n`;
+        interfaceModuleGet += `  ${param.name} ?: I${toTitleCase(param.ref)};\n`;
+        interfaceModuleEdit += `  ${param.name} ?: I${toTitleCase(param.ref)};\n`;
       } else {
-        interfaceModule += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`
-        interfaceModuleCreate += `  ${param.name} ${param.isRequired ? ":" : "?:"} ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`
-        interfaceModuleGet += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`
-        interfaceModuleEdit += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`
+        interfaceModule += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`;
+        interfaceModuleCreate += `  ${param.name} ${param.isRequired ? ":" : "?:"} ${
+          param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()
+        };\n`;
+        interfaceModuleGet += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`;
+        interfaceModuleEdit += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`;
       }
     });
     let interfaceObj = {
@@ -85,7 +83,7 @@ async function main() {
       create: interfaceModuleCreate,
       get: interfaceModuleGet,
       edit: interfaceModuleEdit,
-    }
+    };
 
     let interface = await fsPromise.readFile("./generator/interface.ts", "utf8");
     const newInterface = fs.createWriteStream(`./src/helpers/interface.helper.ts`, { flags: "a" });
@@ -95,16 +93,16 @@ async function main() {
     //Validation
     let validationCreate = ``;
     let validationEdit = ``;
-    generator.parameters.forEach((param) => {
-      validationCreate += `${param.name}: Joi.${param.type.toLowerCase()}().${param.isRequired ? "required" : "optional"}(),\n`
+    generator.parameters.forEach(param => {
+      validationCreate += `${param.name}: Joi.${param.type.toLowerCase()}().${param.isRequired ? "required" : "optional"}(),\n`;
       if (param.isEditable) {
-        validationEdit += `${param.name}: Joi.${param.type.toLowerCase()}().optional(),\n`
+        validationEdit += `${param.name}: Joi.${param.type.toLowerCase()}().optional(),\n`;
       }
     });
     let validationObj = {
       create: validationCreate,
       edit: validationEdit,
-    }
+    };
 
     let validation = await fsPromise.readFile("./generator/validation.ts", "utf8");
     const newValidation = fs.createWriteStream(`./src/helpers/validation.helper.ts`, { flags: "a" });
@@ -115,20 +113,20 @@ async function main() {
     let testBodyCreate = ``;
     let testBodyEdit = ``;
     let testEditKey = ``;
-    generator.parameters.forEach((param) => {
-      testBodyCreate += `${param.name}: ${addRandomTypes(param)},\n`
+    generator.parameters.forEach(param => {
+      testBodyCreate += `${param.name}: ${addRandomTypes(param)},\n`;
       if (param.isEditable) {
-        testBodyEdit += `${param.name}: ${addRandomTypes(param)},\n`
+        testBodyEdit += `${param.name}: ${addRandomTypes(param)},\n`;
       }
-      if (param.isEditable && param.type !== 'Array' && param.type !== 'Object') {
-        testEditKey = param.name
+      if (param.isEditable && param.type !== "Array" && param.type !== "Object") {
+        testEditKey = param.name;
       }
     });
     let testObj = {
       create: testBodyCreate,
       edit: testBodyEdit,
       editKey: testEditKey,
-    }
+    };
 
     let test = await fsPromise.readFile("./generator/test.ts", "utf8");
     const newTest = fs.createWriteStream(`./__test__/${generator.moduleName.toLowerCase()}.test.ts`, { flags: "w" });
@@ -199,22 +197,22 @@ function addTest(string, test) {
   return string;
 }
 
-function addRandomTypes({type, subType, ref}) {
+function addRandomTypes({ type, subType, ref }) {
   let value;
   if (type.toLowerCase() === "string") {
-    value = '"qwertyuiop"'
-    if(ref){
-      value = '"623980a44794ef59b9024c15"'
+    value = '"qwertyuiop"';
+    if (ref) {
+      value = '"623980a44794ef59b9024c15"';
     }
   } else if (type.toLowerCase() === "number") {
-    value = 1234567890
+    value = 1234567890;
   } else if (type.toLowerCase() === "date") {
-    value = new Date()
+    value = new Date();
   } else if (type.toLowerCase() === "array") {
-    if(subType.toLowerCase() === "string") {
-      value = '["qwerty", "uiop"]'
-    } else if (subType.toLowerCase() === "number"){
-      value = '[12345, 67890]'
+    if (subType.toLowerCase() === "string") {
+      value = '["qwerty", "uiop"]';
+    } else if (subType.toLowerCase() === "number") {
+      value = "[12345, 67890]";
     }
   }
   return value;

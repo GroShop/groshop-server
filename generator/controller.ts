@@ -46,9 +46,7 @@ const _MN_Controller = {
       if (search && search.length > 0) {
         query = {
           ...query,
-          $or: [
-            _MSEARCH_
-          ],
+          $or: [_MSEARCH_],
         };
       }
       const getMany_MNS_ = await _MN_Service.getMany_MNS_WithPagination(query, { skip, limit });

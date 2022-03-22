@@ -7,8 +7,8 @@ const schema = new Schema(
     _MO_,
     is_deleted: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "modified_at" } }
 );
