@@ -1,6 +1,13 @@
 const fsPromise = require("fs").promises;
 const fs = require("fs");
-const generator = require("./generator");
+let moduleName;
+process.argv.forEach(function (val, index, array) {
+  if(index === 2){
+    moduleName = val;
+  }
+});
+const generator = require(`../config/generator/${moduleName}.js`);
+
 
 function toTitleCase(str) {
   return str.replace(
@@ -176,10 +183,13 @@ function addTest(string, test) {
   return string;
 }
 
-function addRandomTypes({type, subType}) {
+function addRandomTypes({type, subType, ref}) {
   let value;
   if (type.toLowerCase() === "string") {
     value = '"qwertyuiop"'
+    if(ref){
+      value = '"623980a44794ef59b9024c15"'
+    }
   } else if (type.toLowerCase() === "number") {
     value = 1234567890
   } else if (type.toLowerCase() === "date") {

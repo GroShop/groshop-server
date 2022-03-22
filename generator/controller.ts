@@ -1,7 +1,7 @@
 // @ts-nocheck
 import _MN_Service from "../services/_MN_.service";
 import _ from "lodash";
-import { STATUS, _MNC__RESPONSE } from "../helpers/response.helper";
+import { STATUS, _MNC__RESPONSE } from "../constants/response.constant";
 import { IRequest, IResponse, INextFunction } from "../helpers/interface.helper";
 import HTTP from "http-status-codes";
 
@@ -30,7 +30,7 @@ const _MN_Controller = {
       if (!_.isEmpty(get_MNS_)) {
         res.send({ status: STATUS.SUCCESS, message: _MNC__RESPONSE.GET_SUCCESS, data: get_MNS_ });
       } else {
-        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.failed, message: _MNC__RESPONSE.GET_FAILED });
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.FAILED, message: _MNC__RESPONSE.GET_FAILED });
       }
     } catch (err) {
       err.description = _MNC__RESPONSE.GET_FAILED;
@@ -77,7 +77,7 @@ const _MN_Controller = {
           data: get_MNS_,
         });
       } else {
-        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.failed, message: _MNC__RESPONSE.EDIT_FAILED });
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.FAILED, message: _MNC__RESPONSE.EDIT_FAILED });
       }
     } catch (err) {
       err.description = _MNC__RESPONSE.EDIT_FAILED;
@@ -87,14 +87,14 @@ const _MN_Controller = {
   delete_MNS_: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { _MN__id } = req.body;
-      const delete_MNS_ = await _MN_Service.delete_MNS_({ _id: _MN__id, user: req.decoded.id });
+      const delete_MNS_ = await _MN_Service.delete_MNS_({ _id: _MN__id });
       if (delete_MNS_) {
         res.send({
           status: STATUS.SUCCESS,
           message: _MNC__RESPONSE.DELETE_SUCCESS,
         });
       } else {
-        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.failed, message: _MNC__RESPONSE.DELETE_FAILED });
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.FAILED, message: _MNC__RESPONSE.DELETE_FAILED });
       }
     } catch (err) {
       err.description = _MNC__RESPONSE.DELETE_FAILED;

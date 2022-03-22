@@ -1,5 +1,6 @@
 // @ts-nocheck
 process.env.NODE_ENV = "test";
+import User from "../src/models/user.model";
 import _MNS_ from "../src/models/_MN_.model";
 import mongoose from "mongoose";
 import toBeType from "jest-tobetype";
@@ -11,6 +12,7 @@ expect.extend(toBeType);
 let token, _MN__id;
 
 afterAll(async () => {
+  await User.deleteMany({});
   await _MNS_.deleteMany({});
   await mongoose.disconnect();
 });
@@ -46,10 +48,14 @@ describe("_MN_ Test", () => {
     expect(response.body).toHaveProperty("data");
     expect(typeof response.body.data).toBe("object");
     expect(response.body.data).toHaveProperty("_id");
+    _MN__id = response.body.data._id;
   });
 
   test("Get _MNS_", async () => {
-    const response: any = await request(app).post("/api/v1/_MN_/get__MN_").set("authorization", token).send();
+    let body: any = {
+      _MN__id: _MN__id,
+    }
+    const response: any = await request(app).post("/api/v1/_MN_/get__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
     expect(typeof response.body.data).toBe("object");
@@ -63,8 +69,8 @@ describe("_MN_ Test", () => {
     const response: any = await request(app).post("/api/v1/_MN_/get_many__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
-    expect(typeof response.body.data).toBe("object");
-    expect(response.body.data).toHaveProperty("_id");
+    expect(typeof response.body.data.docs).toBe("object");
+    expect(response.body.data.docs[0]).toHaveProperty("_id");
   });
 
   test("Edit _MNS_", async () => {
@@ -72,7 +78,7 @@ describe("_MN_ Test", () => {
       _MN__id: _MN__id,
       _TEB_
     };
-    const response: any = await request(app).post("/api/v1/auth/edit__MN_").set("authorization", token).send(body);
+    const response: any = await request(app).post("/api/v1/_MN_/edit__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty("data");
     expect(typeof response.body.data).toBe("object");
@@ -83,7 +89,7 @@ describe("_MN_ Test", () => {
     let body: any = {
       _MN__id: _MN__id,
     };
-    const response: any = await request(app).post("/api/v1/auth/delete__MN_").set("authorization", token).send(body);
+    const response: any = await request(app).post("/api/v1/_MN_/delete__MN_").set("authorization", token).send(body);
     expect(response.statusCode).toBe(200);
   });
 });
