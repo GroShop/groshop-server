@@ -70,7 +70,7 @@ const _MN_Controller = {
         const query = {
           _id: _MN__id,
         };
-        const get_MNS_ = await _MN_Service.getMany_MNS_(query);
+        const get_MNS_ = await _MN_Service.get_MNS_(query);
         res.send({
           status: STATUS.SUCCESS,
           message: _MNC__RESPONSE.EDIT_SUCCESS,

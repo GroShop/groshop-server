@@ -8,10 +8,12 @@ import { nanoid } from "nanoid";
 import fileUpload from "express-fileupload";
 import { Server } from "socket.io";
 import Logger from "./helpers/logger.helper";
-import authRoute from "./routes/v1/user.route";
 import connectDB from "./db";
 import { initAWS } from "./helpers/s3.helper";
 import initSocketIO from "./helpers/socker.helper";
+
+import authRoute from "./routes/v1/user.route";
+import areaRoute from "./routes/v1/area.route";
 
 // create server
 const app = express();
@@ -68,6 +70,7 @@ app.use(fileUpload());
 
 // routes
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/area", areaRoute);
 
 //Error Handling
 app.use(function (err, req, res, next) {

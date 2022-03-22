@@ -120,7 +120,7 @@ async function main() {
       if (param.isEditable) {
         testBodyEdit += `${param.name}: ${addRandomTypes(param)},\n`
       }
-      if (param.isEditable) {
+      if (param.isEditable && param.type !== 'Array' && param.type !== 'Object') {
         testEditKey = param.name
       }
     });
