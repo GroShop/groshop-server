@@ -16,9 +16,13 @@ function toTitleCase(str) {
 
 async function main() {
   try {
+    const routeDir = `./src/routes/${generator.routeVersion}/${generator.moduleName.toLowerCase()}.route.ts`;
+    if (fs.existsSync(routeDir)) {
+      throw new Error("Module already exists");
+    }
     //Route
     let route = await fsPromise.readFile("./generator/route.ts", "utf8");
-    const newRoute = fs.createWriteStream(`./src/routes/${generator.routeVersion}/${generator.moduleName.toLowerCase()}.route.ts`, { flags: "w" });
+    const newRoute = fs.createWriteStream(routeDir, { flags: "w" });
     newRoute.write(replaceName(route));
 
     //Model
@@ -71,9 +75,8 @@ async function main() {
         interfaceModuleEdit += `  ${param.name} ?: I${toTitleCase(param.ref)};\n`;
       } else {
         interfaceModule += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`;
-        interfaceModuleCreate += `  ${param.name} ${param.isRequired ? ":" : "?:"} ${
-          param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()
-        };\n`;
+        interfaceModuleCreate += `  ${param.name} ${param.isRequired ? ":" : "?:"} ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()
+          };\n`;
         interfaceModuleGet += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`;
         interfaceModuleEdit += `  ${param.name} ?: ${param.type === "Array" ? `Array<${param.subType}>` : param.type.toLowerCase()};\n`;
       }
@@ -110,7 +113,7 @@ async function main() {
     newValidation.write(addValidation(validationString, validationObj));
 
     //Postman
-    let postman = await fsPromise.readFile("./generator/postman_item.json", "utf8");
+    let postman = await fsPromise.readFile("./generator/postman.json", "utf8");
     const newItem = replaceName(postman)
     let ptestBodyCreate = ``;
     let ptestBodyEdit = `\n    "${generator.moduleName.toLowerCase()}_id": "{{${generator.moduleName.toLowerCase()}_id}}",`;
@@ -143,21 +146,21 @@ async function main() {
     }
     const postmanFile = await fsPromise.readFile("./postman/postman.json", "utf8");
     const jsonData = JSON.parse(postmanFile)
-    let isExits = false
+    let isExists = false
     let i
     for (let index in jsonData.item) {
       if (jsonData.item[index].name === generator.moduleName) {
-        isExits = true
+        isExists = true
         i = index
       }
     }
-    if (isExits === false) {
+    if (isExists === false) {
       jsonData.item.push(items)
       const newRoute = fs.createWriteStream(`./postman/postman.json`, { flags: "w" });
       newRoute.write(JSON.stringify(jsonData))
     }
     else {
-      console.log("Item already exit's")
+      console.log("Item already exists")
     }
 
     //Test

@@ -1,4 +1,149 @@
 {
   "info": { "name": "Fullfily", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
-  "item": []
+  "item": [
+    {
+      "name": "Area",
+      "item": [
+        {
+          "name": "Create",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Create area\", ()=>{",
+                  "    pm.response.to.have.status(200)",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set(\"area_id\", response.data._id);",
+                  "})"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"qwertyuiop\",\n    \"pincode\": [12345, 67890],\n    \"created_by\": \"623980a44794ef59b9024c15\" \n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{domain}}/area/create_area", "host": ["{{domain}}"], "path": ["area", "create_area"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Get",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Get area\", ()=>{",
+                  "    pm.response.to.have.status(200)",
+                  "    const response = pm.response.json();",
+                  "    const areaId = pm.environment.get(\"area_id\");",
+                  "    pm.expect(areaId).to.eq(response.data._id)",
+                  "})"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+            "method": "POST",
+            "header": [],
+            "body": { "mode": "raw", "raw": "{\n    \"area_id\": \"{{area_id}}\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{domain}}/area/get_area", "host": ["{{domain}}"], "path": ["area", "get_area"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Many",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Get many area\", ()=>{",
+                  "    pm.response.to.have.status(200)",
+                  "    const response = pm.response.json()",
+                  "    pm.expect(response.data.docs.length).greaterThan(0)",
+                  "})"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+            "method": "POST",
+            "header": [],
+            "body": { "mode": "raw", "raw": "{\n    \n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{domain}}/area/get_many_area", "host": ["{{domain}}"], "path": ["area", "get_many_area"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Edit area\", ()=>{",
+                  "    pm.response.to.have.status(200)",
+                  "    const response = pm.response.json();",
+                  "    const areaId = pm.environment.get('area_id');",
+                  "    pm.expect(response.data._id).to.eq(areaId);",
+                  "})"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"area_id\": \"{{area_id}}\",\n    \"name\": \"qwertyuiop\",\n    \"pincode\": [12345, 67890], \n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{domain}}/area/edit_area", "host": ["{{domain}}"], "path": ["area", "edit_area"] }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Delete area\", ()=>{",
+                  "    pm.response.to.have.status(200);",
+                  "    pm.environment.set(\"area_id\", \"\");",
+                  "})"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+            "method": "POST",
+            "header": [],
+            "body": { "mode": "raw", "raw": "{\n    \"area_id\": \"{{area_id}}\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{domain}}/area/delete_area", "host": ["{{domain}}"], "path": ["area", "delete_area"] }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }
