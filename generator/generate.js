@@ -109,6 +109,57 @@ async function main() {
     const validationString = replaceName(validation);
     newValidation.write(addValidation(validationString, validationObj));
 
+    //Postman
+    let postman = await fsPromise.readFile("./generator/postman_item.json", "utf8");
+    const newItem = replaceName(postman)
+    let ptestBodyCreate = ``;
+    let ptestBodyEdit = `\n    "${generator.moduleName.toLowerCase()}_id": "{{${generator.moduleName.toLowerCase()}_id}}",`;
+    generator.parameters.forEach((param, index) => {
+      if (index === generator.parameters.length - 1) {
+        ptestBodyCreate += `\n    \"${param.name}\": ${addRandomTypes(param)}`;
+        if (param.isEditable) {
+          ptestBodyEdit += `\n    \"${param.name}\": ${addRandomTypes(param)}`;
+        }
+      }
+      else {
+        ptestBodyCreate += `\n    \"${param.name}\": ${addRandomTypes(param)},`;
+        if (param.isEditable) {
+          ptestBodyEdit += `\n    \"${param.name}\": ${addRandomTypes(param)},`;
+        }
+      }
+    });
+    const items = JSON.parse(newItem)
+    let ptestObj = {
+      create: `{${ptestBodyCreate} \n}`,
+      edit: `{${ptestBodyEdit} \n}`,
+    };
+    for (let i in items.item) {
+      if (items.item[i].name === "Create") {
+        items.item[i].request.body.raw = ptestObj.create
+      }
+      if (items.item[i].name === "Edit") {
+        items.item[i].request.body.raw = ptestObj.edit
+      }
+    }
+    const postmanFile = await fsPromise.readFile("./postman/postman.json", "utf8");
+    const jsonData = JSON.parse(postmanFile)
+    let isExits = false
+    let i
+    for (let index in jsonData.item) {
+      if (jsonData.item[index].name === generator.moduleName) {
+        isExits = true
+        i = index
+      }
+    }
+    if (isExits === false) {
+      jsonData.item.push(items)
+      const newRoute = fs.createWriteStream(`./postman/postman.json`, { flags: "w" });
+      newRoute.write(JSON.stringify(jsonData))
+    }
+    else {
+      console.log("Item already exit's")
+    }
+
     //Test
     let testBodyCreate = ``;
     let testBodyEdit = ``;
