@@ -17,7 +17,7 @@ afterAll(async () => {
   await mongoose.disconnect();
 });
 
-describe("_MN_ Test", () => {
+describe("_MNS_ Test", () => {
   test("User signup", async () => {
     let body = {
       email: "kishore@yopmail.com",
