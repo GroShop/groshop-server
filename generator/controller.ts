@@ -40,9 +40,7 @@ const _MN_Controller = {
   getMany_MNS_: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { skip = 0, limit = 10, search } = req.body;
-      let query: any = {
-        user: req.decoded.id,
-      };
+      let query: any = {};
       if (search && search.length > 0) {
         query = {
           ...query,
