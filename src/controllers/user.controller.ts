@@ -60,20 +60,16 @@ const userController = {
 
   userSignup: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email.trim().toLowerCase());
+      let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetails(undefined, email);
       const salt = parseInt(process.env.SALT, 10);
       if (!user) {
         let hash = await bcrypt.hash(req.body.password, salt);
         req.body.password = hash;
         req.body.email = email;
-        if (!process.env.isEncrypted) {
-          req.body.og_email = crypto.decrypt(req.body.email);
-        }
         // Store hash in your password DB.
         await UserService.createUser(req.body);
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED });
-        email = crypto.decrypt(req.body.email);
         await UserService.sendConfirmationMail(email);
       } else if (user && user.is_deleted) {
         let hash = await bcrypt.hash(req.body.password, salt);
@@ -84,7 +80,6 @@ const userController = {
         let query = { _id: user._id };
         const updated = await UserService.updateUser(query, req.body);
         if (updated) {
-          email = crypto.decrypt(req.body.email);
           let confirmation = await UserService.sendConfirmationMail(email);
           if (!confirmation) {
             res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.CONFIRMATION_EMAIL_FAILED });
@@ -104,10 +99,9 @@ const userController = {
 
   userLogin: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email.trim().toLowerCase());
+      let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
       if (user) {
-        user.email = crypto.decrypt(user.email);
         let isTrue = await bcrypt.compare(req.body.password, user.password);
         if (isTrue) {
           let token = await UserService.generateToken(user._id, user.email, user.user_type);
@@ -129,10 +123,9 @@ const userController = {
   //Social Login
   userSocialLogin: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email.trim().toLowerCase());
+      let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetails(undefined, email);
       if (user && !user.is_deleted) {
-        user.email = crypto.decrypt(user.email);
         let token = await UserService.generateToken(user._id, user.email, user.user_type);
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_EXIST, token, role: user.user_type, data: user });
 
@@ -140,15 +133,11 @@ const userController = {
       } else if (user && user.is_deleted) {
         req.body.user_type = USER.SOCIAL;
         req.body.email = email;
-        if (!process.env.isEncrypted) {
-          req.body.og_email = crypto.decrypt(req.body.email);
-        }
         req.body.social_account_type = req.body.social_account_type;
         req.body.confirmed = true;
         req.body.is_deleted = false;
         await UserService.updateUser({ _id: user._id }, req.body);
         let user_details = await UserService.userDetails(undefined, email);
-        user_details.email = crypto.decrypt(email);
         let token = await UserService.generateToken(user_details._id, user_details.email, user_details.user_type);
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user_details.user_type, data: user_details });
 
@@ -157,12 +146,8 @@ const userController = {
         req.body.user_type = USER.SOCIAL;
         req.body.social_account_type = req.body.social_account_type;
         req.body.email = email;
-        if (!process.env.IS_ENCRYPTED) {
-          req.body.og_email = crypto.decrypt(req.body.email);
-        }
         req.body.confirmed = true;
         let user: IUser = await UserService.createUser(req.body);
-        user.email = crypto.decrypt(user.email);
         let token = await UserService.generateToken(user._id, user.email, user.user_type);
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user.user_type, data: user });
 
@@ -178,7 +163,6 @@ const userController = {
   resendConfirmationMail: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       let user: IUser = await UserService.userDetails(req.decoded.id, undefined);
-      user.email = crypto.decrypt(user.email);
       let confirmation = await UserService.sendConfirmationMail(user.email);
       if (confirmation) {
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.RESENT_CONFIRMATION });
@@ -220,13 +204,13 @@ const userController = {
   //Forget Password
   forgetPassword: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email);
+      let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetails(undefined, email);
       if (user) {
         //Send mail
         var id = new mongoose.Types.ObjectId();
         let html = EMAIL_TEMPLATES.forgotPassword(id);
-        const response = await Mail("", req.body.email, USER.RESET_PASSWORD, "", html);
+        const response = await Mail("", email, USER.RESET_PASSWORD, "", html);
         if (response) {
           let query = {
             email: email,
@@ -299,7 +283,7 @@ const userController = {
 
   sendOtp: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email);
+      let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetails(undefined, email);
       if (user) {
         const otp = await nanoid();
@@ -326,7 +310,7 @@ const userController = {
 
   verifyOtp: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email);
+      let email = req.body.email.trim().toLowerCase();
       const user: IUser = await UserService.getSingleUserByQuery({ email: email, otp: req.body.otp });
       if (user) {
         let id = new mongoose.Types.ObjectId();
@@ -382,7 +366,6 @@ const userController = {
       let id = req.params.id ? req.params.id : req.decoded.id;
       let user: IUser = await UserService.userDetails(id);
       if (user) {
-        user.email = crypto.decrypt(user.email);
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_FETCHED, data: user });
       } else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.USER_DOESNT_EXIST });
