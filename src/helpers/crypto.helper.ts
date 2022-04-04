@@ -1,20 +1,16 @@
-import crypto from "crypto";
-const algorithm: string = "aes-256-cbc";
+import CryptoJS from "crypto-js";
 
 const encrypt = (text: string) => {
   const secret: string = process.env.SECRET;
-  var cipher = crypto.createCipher(algorithm, secret);
-  var crypted = cipher.update(text, "utf8", "hex");
-  crypted += cipher.final("hex");
-  return crypted;
+  var ciphertext = CryptoJS.AES.encrypt(text, secret).toString();
+  return ciphertext;
 };
 
 const decrypt = (text: string) => {
   const secret: string = process.env.SECRET;
-  var decipher = crypto.createDecipher(algorithm, secret);
-  var dec = decipher.update(text, "hex", "utf8");
-  dec += decipher.final("utf8");
-  return dec;
+  var ciphertext = CryptoJS.AES.decrypt(text, secret);
+  var originalText = ciphertext.toString(CryptoJS.enc.Utf8);
+  return originalText;
 };
 
 export default { encrypt, decrypt };

@@ -12,7 +12,7 @@ import connectDB from "./db";
 import { initAWS } from "./helpers/s3.helper";
 import initSocketIO from "./helpers/socker.helper";
 
-import authRoute from "./routes/v1/user.route";
+import userRoute from "./routes/v1/user.route";
 //_NR_
 
 // create server
@@ -69,7 +69,7 @@ app.use(
 app.use(fileUpload());
 
 // routes
-app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/auth", userRoute);
 //_NRD_
 
 //Error Handling
