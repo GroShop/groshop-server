@@ -60,7 +60,7 @@ const userController = {
 
   userSignup: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email);
+      let email = crypto.encrypt(req.body.email.trim().toLowerCase());
       let user: IUser = await UserService.userDetails(undefined, email);
       const salt = parseInt(process.env.SALT, 10);
       if (!user) {
@@ -104,7 +104,7 @@ const userController = {
 
   userLogin: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email);
+      let email = crypto.encrypt(req.body.email.trim().toLowerCase());
       let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
       if (user) {
         user.email = crypto.decrypt(user.email);
@@ -129,7 +129,7 @@ const userController = {
   //Social Login
   userSocialLogin: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      let email = crypto.encrypt(req.body.email);
+      let email = crypto.encrypt(req.body.email.trim().toLowerCase());
       let user: IUser = await UserService.userDetails(undefined, email);
       if (user && !user.is_deleted) {
         user.email = crypto.decrypt(user.email);

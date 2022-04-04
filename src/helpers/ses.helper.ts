@@ -34,8 +34,7 @@ const Mail = (from: string, to: string, subject: string, text: string, html: any
       Source: `${EMAIL.SENDER_NAME} <${EMAIL.SENDER_EMAIL}>}`,
     };
 
-    if(process.env.NODE_ENV === 'test')
-    return
+    if (process.env.NODE_ENV === "test") return;
 
     const sendEmail = ses.sendEmail(params).promise();
     console.log("subject", subject);
