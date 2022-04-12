@@ -8,7 +8,6 @@ import HTTP from "http-status-codes";
 
 import USER from "../constants/user.constant";
 import UserService from "../services/user.service";
-import crypto from "../helpers/crypto.helper";
 import Mail from "../helpers/ses.helper";
 
 import { USER_RESPONSE } from "../constants/response.constant";
