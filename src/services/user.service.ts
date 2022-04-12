@@ -80,9 +80,8 @@ const UserService = {
 
     //Send mail
     var id = new mongoose.Types.ObjectId();
-    let html = await EMAIL_TEMPLATES.confirmEmail(user.username, id);
-    let decrypted_email = crypto.decrypt(email);
-    const response = await Mail("", decrypted_email, EMAIL.CONFIRM_EMAIL_SUBJECT, "", html);
+    let html = await EMAIL_TEMPLATES.confirmEmail(user.first_name, id);
+    const response = await Mail("", email, EMAIL.CONFIRM_EMAIL_SUBJECT, "", html);
     if (response) {
       let body = {
         email_confirmation_id: id,
@@ -180,7 +179,6 @@ const UserService = {
       last_name: payload.family_name,
       profile_picture: await s3.migrateImageToS3(payload.picture),
       username: await UserService.generateUsername(payload.email),
-      email_decrypted: payload.email,
     };
     return data;
   },
@@ -196,7 +194,6 @@ const UserService = {
         last_name: payload.lastName,
         profile_picture: await s3.migrateImageToS3(payload.profilePicURL),
         username: await UserService.generateUsername(payload.email),
-        email_decrypted: payload.email,
       };
       return data;
     } else {

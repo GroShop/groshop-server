@@ -7,7 +7,6 @@ export const createUser = Joi.object({
     .optional(),
   password: Joi.string().required(),
   user_type: Joi.string().optional(),
-  username: Joi.string().required(),
 });
 
 export const editUser = Joi.object({

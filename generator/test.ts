@@ -22,7 +22,6 @@ describe("_MNS_ Test", () => {
     let body = {
       email: "kishore@yopmail.com",
       password: "qazwsx12",
-      username: "kishore",
     };
     const response: any = await request(app).post("/api/v1/auth/user_signup").send(body);
     expect(response.statusCode).toBe(200);
