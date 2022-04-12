@@ -337,12 +337,12 @@ const userController = {
         };
         let updated = await UserService.updateUser({ _id: user._id }, password_hash);
         if (updated) {
-          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.OTP_VERIFIED, data: { hash: id } });
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.OTP_VERIFIED, data: { reset_password_hash: id } });
         } else {
-          res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.INVALID_OTP, data: false });
+          res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.USER_UPDATE_ERROR });
         }
       } else {
-        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.INVALID_OTP, data: false });
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.INVALID_OTP });
       }
     } catch (err) {
       err.desc = USER_RESPONSE.FAILED_TO_VERIFY_OTP;
