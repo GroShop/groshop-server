@@ -75,7 +75,6 @@ const UserService = {
   },
 
   sendConfirmationMail: async (email: string) => {
-    email = crypto.encrypt(email);
     let user: IUser = await UserService.userDetails(undefined, email);
 
     //Send mail

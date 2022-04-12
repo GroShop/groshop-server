@@ -68,8 +68,7 @@ describe("User Auth", () => {
   });
 
   test("Reset password", async () => {
-    let email = crypto.encrypt("kishore1@yopmail.com");
-    let user: any = await User.findOne({ email: email });
+    let user: any = await User.findOne({ email: "kishore1@yopmail.com" });
     id = user._id;
     let body = {
       reset_password_hash: user.reset_password_hash,
