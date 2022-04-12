@@ -8,9 +8,10 @@
     "start": "NODE_ENV=dev ts-node-dev --respawn --transpile-only src/index.ts",
     "prod": "tsc && node dist/src/index.js",
     "deploy": "./deploy.sh",
-    "generate": "node generator/generate",
+    "generate": "node ./node_modules/node-ts-codegen/generate",
     "postgenerate": "npx prettier --write .",
-    "test:single": "jest --runInBand --forceExit --coverage --"
+    "test:single": "jest --runInBand --forceExit --coverage --",
+    "codegen-update": "npm update node-ts-codegen"
   },
   "author": "",
   "license": "ISC",
@@ -52,6 +53,7 @@
     "mongoose-paginate-v2": "^1.6.2",
     "morgan-body": "^2.6.6",
     "nanoid": "^3.3.1",
+    "node-ts-codegen": "git+ssh://git@github.com/kishorepadmanaban/node-ts-codegen.git",
     "nodemailer": "^6.7.2",
     "path": "^0.12.7",
     "request": "^2.88.2",
