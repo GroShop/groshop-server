@@ -2,7 +2,7 @@
 import _MNS_ from "../models/_MN_.model";
 import { ICreate_MNS_, I_MNS_, IEdit_MNS_, IQuery_MNS_, IMongooseUpdate, IPagination_MNS_, IPaginationOption } from "../helpers/interface.helper";
 
-const _MN_Service = {
+const _MNS_Service = {
   create_MNS_: async (body: ICreate_MNS_): Promise<I_MNS_> => {
     const create_MNS_: I_MNS_ = await _MNS_.create(body);
     return create_MNS_;
@@ -44,4 +44,4 @@ const _MN_Service = {
   },
 };
 
-export default _MN_Service;
+export default _MNS_Service;
