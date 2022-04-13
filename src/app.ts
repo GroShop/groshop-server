@@ -11,6 +11,7 @@ import Logger from "./helpers/logger.helper";
 import connectDB from "./db";
 import { initAWS } from "./helpers/s3.helper";
 import initSocketIO from "./helpers/socker.helper";
+import { setSMSType } from './helpers/sms.helper';
 
 import userRoute from "./routes/v1/user.route";
 //_NR_
@@ -35,6 +36,9 @@ Logger(app);
 
 //Init AWS
 initAWS();
+
+//Set SMS Type
+setSMSType();
 
 //InitSocketServer
 initSocketIO(io);
