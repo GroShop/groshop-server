@@ -17,6 +17,7 @@ export const USER_RESPONSE = {
   OTP_SENT: "OTP has been Sent to your registered email",
   OTP_VERIFIED: "OTP has been verified",
   USER_LOGGED_OUT: "User logged out",
+  UNAUTHORIZED: "Unauthorized user",
 
   //errors
   USER_UPDATE_ERROR: "Failed to update user",
