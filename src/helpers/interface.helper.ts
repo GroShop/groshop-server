@@ -18,7 +18,7 @@ export interface IUser {
   username?: string;
   email?: string;
   password?: string;
-  user_type?: string;
+  role?: string;
   confirmed?: boolean;
   social_account_type?: string;
   email_confirmation_id?: string;
@@ -50,7 +50,7 @@ export interface IUserQuery {
   _id?: string;
   email?: string;
   is_deleted?: boolean;
-  user_type?: string;
+  role?: string;
   name?: any;
   page?: number;
   limit?: number;

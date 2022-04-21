@@ -103,9 +103,9 @@ const userController = {
       if (user) {
         let isTrue = await bcrypt.compare(req.body.password, user.password);
         if (isTrue) {
-          let token = await UserService.generateToken(user._id, user.email, user.user_type);
+          let token = await UserService.generateToken(user._id, user.email, user.role);
           delete user.password;
-          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_EXIST, token, role: user.user_type, data: user });
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_EXIST, token, role: user.role, data: user });
           await UserService.createSession({ user: user._id });
         } else {
           res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.INCORRECT_PASSWORD });
@@ -125,30 +125,30 @@ const userController = {
       let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetails(undefined, email);
       if (user && !user.is_deleted) {
-        let token = await UserService.generateToken(user._id, user.email, user.user_type);
-        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_EXIST, token, role: user.user_type, data: user });
+        let token = await UserService.generateToken(user._id, user.email, user.role);
+        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_EXIST, token, role: user.role, data: user });
 
         await UserService.createSession({ user: user._id });
       } else if (user && user.is_deleted) {
-        req.body.user_type = USER.SOCIAL;
+        req.body.role = USER.SOCIAL;
         req.body.email = email;
         req.body.social_account_type = req.body.social_account_type;
         req.body.confirmed = true;
         req.body.is_deleted = false;
         await UserService.updateUser({ _id: user._id }, req.body);
         let user_details = await UserService.userDetails(undefined, email);
-        let token = await UserService.generateToken(user_details._id, user_details.email, user_details.user_type);
-        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user_details.user_type, data: user_details });
+        let token = await UserService.generateToken(user_details._id, user_details.email, user_details.role);
+        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user_details.role, data: user_details });
 
         await UserService.createSession({ user: user._id });
       } else {
-        req.body.user_type = USER.SOCIAL;
+        req.body.role = USER.SOCIAL;
         req.body.social_account_type = req.body.social_account_type;
         req.body.email = email;
         req.body.confirmed = true;
         let user: IUser = await UserService.createUser(req.body);
-        let token = await UserService.generateToken(user._id, user.email, user.user_type);
-        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user.user_type, data: user });
+        let token = await UserService.generateToken(user._id, user.email, user.role);
+        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user.role, data: user });
 
         await UserService.createSession({ user: user._id });
       }

@@ -6,7 +6,7 @@ export const createUser = Joi.object({
     .regex(/[0-9]{10}/)
     .optional(),
   password: Joi.string().required(),
-  user_type: Joi.string().optional(),
+  role: Joi.string().optional(),
 });
 
 export const editUser = Joi.object({

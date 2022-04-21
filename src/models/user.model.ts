@@ -9,7 +9,7 @@ const schema = new Schema(
     },
     og_email: String,
     password: String,
-    user_type: String,
+    role: String,
     confirmed: Boolean,
     social_account_type: String,
     email_confirmation_id: String,
