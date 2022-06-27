@@ -9,7 +9,7 @@
     "prod": "tsc && node dist/src/index.js",
     "deploy": "./deploy.sh",
     "generate": "node ./node_modules/node-ts-codegen/generate",
-    "postgenerate": "npx prettier --write .",
+    "format": "npx prettier --write .",
     "test:single": "jest --runInBand --forceExit --coverage --",
     "codegen-update": "npm update node-ts-codegen"
   },
