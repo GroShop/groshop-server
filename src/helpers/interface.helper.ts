@@ -151,6 +151,7 @@ export interface IMongooseUpdate {
 export interface IPaginationOption {
   skip: number;
   limit: number;
+  sort?: any;
 }
 
 export interface IWinston {
