@@ -9,6 +9,9 @@ import UserService from "../services/user.service";
 
 import { USER_RESPONSE } from "../constants/response.constant";
 import { IUser, IResponse, IRequest, INextFunction } from "../helpers/interface.helper";
+import { otpGenerator } from "../helpers/functions.helper";
+import Mail from "../helpers/mail.helper";
+import { EMAIL_TEMPLATES } from "../constants/email.constant";
 
 const numbers = "0123456789";
 const nanoid = customAlphabet(numbers, 6);
@@ -95,7 +98,6 @@ const userController = {
   userLogin: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       let email = req.body.email.trim().toLowerCase();
-
       let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
       if (user) {
         let isTrue = await bcrypt.compare(req.body.password, user.password);
@@ -141,7 +143,53 @@ const userController = {
       next(err);
     }
   },
-
+  sendOtp: async (req: IRequest, res: IResponse, next: INextFunction) => {
+    try {
+      let email = req.body.email.trim().toLowerCase();
+      let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
+      if (user) {
+        let otp: any = otpGenerator();
+        let subject = "otp verfication";
+        let text = `Hi ${user.username}`;
+        let html = EMAIL_TEMPLATES.sendOtp(user.username, otp);
+        Mail("", email, subject, text, html);
+        let query: any = {
+          otp,
+        };
+        let updated = await UserService.updateUser({ _id: user._id }, query);
+        if (updated) {
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.SEND_OTP, data: user });
+        }
+      } else {
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.USER_DOESNT_EXIST });
+      }
+    } catch (err) {
+      err.desc = USER_RESPONSE.SEND_OTP_FAILED;
+      next(err);
+    }
+  },
+  verifyOtp: async (req: IRequest, res: IResponse, next: INextFunction) => {
+    try {
+      let email = req.body.email.trim().toLowerCase();
+      let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
+      if (user) {
+        if (user.otp === req.body.otp) {
+          let otp: any = otpGenerator();
+          let query: any = {
+            otp,
+          };
+          let updated = await UserService.updateUser({ _id: user._id }, query);
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.VERIFY_OTP, data: user });
+        }
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.VERIFY_OTP_FAILED });
+      } else {
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.USER_DOESNT_EXIST });
+      }
+    } catch (err) {
+      err.desc = USER_RESPONSE.VERIFY_OTP_FAILED;
+      next(err);
+    }
+  },
   viewUser: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       let id = req.params.id ? req.params.id : req.decoded.id;
@@ -159,7 +207,6 @@ const userController = {
 
   // logout: async (req: IRequest, res: IResponse, next: INextFunction) => {
   //   try {
-     
 
   //     res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_LOGGED_OUT });
   //   } catch (err) {

@@ -280,6 +280,10 @@ const arrayToText = (array: any) => {
   return str;
 };
 
+const otpGenerator =()=>{
+return Math.floor(1000 + Math.random() * 9000)
+}
+
 export {
   capitalizeFirstLetter,
   subtractTwoDates,
@@ -302,4 +306,5 @@ export {
   calcSubscriptionInterval,
   calculateTimeReturnValue,
   arrayToText,
+  otpGenerator
 };

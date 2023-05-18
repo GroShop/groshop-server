@@ -12,7 +12,7 @@ export const EMAIL_TEMPLATES = {
     <a href="${process.env.DOMAIN}/reset_password/${id}">Reset Password</a>;`;
   },
   sendOtp: (name: string, otp: string) => {
-    return `<p>Hi ${name}</p><p>Your one time password for off leash training.</p></p>OTP: ${otp}</p>`;
+    return `<p>Hi ${name}</p><p>We are verifying your account for secure login. Please use the following OTP code to complete the verification process:.</p></p></p><p><p>OTP: ${otp}</p></p></p>`;
   },
   welcomeEmail: async (name: string) => {
     let html = `

@@ -44,6 +44,10 @@ export const USER_RESPONSE = {
   FAILED_TO_FETCH_USER: "Failed to fetch user",
   LOGOUT_FAILED: "Failed to fetch user",
   FB_AUTH_FAILED: "Failed to authenticate Facebook account",
+  SEND_OTP:"Send otp successfully",
+  SEND_OTP_FAILED:"Send otp failed",
+  VERIFY_OTP:"Verify otp successfully",
+  VERIFY_OTP_FAILED:"Verify otp failed"
 };
 
 export const NOTIFICATION_RESPONSE = {
