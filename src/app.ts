@@ -7,11 +7,8 @@ import dotenv from "dotenv";
 import { nanoid } from "nanoid";
 import fileUpload from "express-fileupload";
 import { Server } from "socket.io";
-import Logger from "./helpers/logger.helper";
 import connectDB from "./db";
-import { initAWS } from "./helpers/s3.helper";
-import initSocketIO from "./helpers/socker.helper";
-import { setSMSType } from './helpers/sms.helper';
+
 
 import userRoute from "./routes/v1/user.route";
 //_NR_
@@ -29,19 +26,6 @@ function assignId(req, res, next) {
 // config dotenv
 dotenv.config();
 
-app.use(assignId);
-
-//Init logger
-Logger(app);
-
-//Init AWS
-initAWS();
-
-//Set SMS Type
-setSMSType();
-
-//InitSocketServer
-initSocketIO(io);
 
 // connect mongoose
 if (process.env.NODE_ENV === "test") {

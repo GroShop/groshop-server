@@ -22,17 +22,13 @@ export interface IUser {
   confirmed?: boolean;
   social_account_type?: string;
   email_confirmation_id?: string;
-  first_name?: string;
-  last_name?: string;
   reset_password_hash?: any;
   reset_password_expiry?: any;
   session?: any[];
   session_id?: Types.ObjectId;
   otp?: string;
   created_by?: Types.ObjectId;
-  phone?: string;
   profile?: string;
-  health?: any[];
   is_deleted?: boolean;
   created_at?: Date;
   modified_at?: Date;
@@ -108,36 +104,7 @@ export interface INotification {
   modified_at?: string;
 }
 
-export interface IPaginationNotification extends IPaginationResponse {
-  docs: INotification[];
-}
-export interface IGetNotification {
-  _id?: string;
-  user?: string;
-  title?: string;
-  body?: string;
-  type?: string;
-  redirect_to?: string;
-  seen?: boolean;
-  from?: string;
-  is_deleted?: boolean;
-  created_at?: string;
-  modified_at?: string;
-}
 
-export interface ICreateNotification {
-  user?: string;
-  title?: string;
-  body?: string;
-  type?: string;
-  redirect_to?: string;
-  seen?: boolean;
-  from?: string;
-  merge_fields?: any;
-  data?: any;
-  category: string;
-  message: string;
-}
 
 export interface IMongooseUpdate {
   acknowledged: Boolean;
@@ -148,14 +115,3 @@ export interface IMongooseUpdate {
   n?: number;
 }
 
-export interface IPaginationOption {
-  skip: number;
-  limit: number;
-  sort?: any;
-}
-
-export interface IWinston {
-  log: any;
-  error: any;
-  info: any;
-}

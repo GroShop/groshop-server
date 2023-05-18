@@ -4,21 +4,18 @@ const Mail = (from: string, to: string, subject: string, text: string, html: any
   const promise = new Promise((resolve, reject) => {
     // Send Mail
     nodemailer.createTestAccount((err, account) => {
-      let transporter = nodemailer.createTransport({
-        host: "pro1.mail.ovh.net",
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
         port: 587,
-        tls: {
-          ciphers: "SSLv3",
-        }, // true for 465, false for other ports
         auth: {
-          user: "p7@tionkar.com", // generated ethereal user
-          pass: "pSeven!zsoawesome", // generated ethereal password
-        },
-      });
+            user: 'emie78@ethereal.email',
+            pass: '7fqTtk3w2n9R5ytsKF'
+        }
+    });
 
       // setup email data with unicode symbols
       let mailOptions = {
-        from: "<p7@tionkar.com>", // sender address
+        from: "<donotreply@gmail.com>", // sender address
         to: to, // list of receivers
         subject: subject, // Subject line
         text: text, // plain text body

@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "test": "jest --runInBand --forceExit --coverage",
-    "start": "NODE_ENV=dev ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": " ts-node-dev --respawn --transpile-only src/index.ts",
     "prod": "tsc && node dist/src/index.js",
     "deploy": "./deploy.sh",
     "generate": "node ./node_modules/node-ts-codegen/generate",

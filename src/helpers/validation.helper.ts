@@ -1,21 +1,15 @@
 import Joi from "joi";
 
 export const createUser = Joi.object({
+  username:Joi.string().required(),
   email: Joi.string().email().required(),
-  phone: Joi.string()
-    .regex(/[0-9]{10}/)
-    .optional(),
   password: Joi.string().required(),
   role: Joi.string().optional(),
 });
 
 export const editUser = Joi.object({
-  phone: Joi.string()
-    .regex(/[0-9]{10}/)
-    .optional(),
-  first_name: Joi.string().optional(),
-  last_name: Joi.string().optional(),
   username: Joi.string().optional(),
+  password: Joi.string().optional(),
   id: Joi.string().required(),
 });
 
@@ -37,7 +31,3 @@ export const login = Joi.object({
   password: Joi.string().required(),
 });
 
-export const resetPassword = Joi.object({
-  reset_password_hash: Joi.string().required(),
-  password: Joi.string().required(),
-});
