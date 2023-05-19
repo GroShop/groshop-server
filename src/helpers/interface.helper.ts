@@ -32,6 +32,7 @@ export interface IUser {
   is_deleted?: boolean;
   created_at?: Date;
   modified_at?: Date;
+  otp_verify?: boolean;
 }
 
 export interface IUserList {

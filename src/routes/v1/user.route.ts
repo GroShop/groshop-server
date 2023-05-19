@@ -17,6 +17,8 @@ router.post("/view_user", UserController.verifyToken, UserController.viewUser);
 
 router.post("/send_otp", UserController.sendOtp);
 
+router.post("/verify_otp", UserController.verifyOtp);
+
 router.post("/view_user", UserController.verifyToken, UserController.viewUser);
 
 export default router;

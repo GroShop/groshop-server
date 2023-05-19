@@ -13,6 +13,7 @@ const schema = new Schema(
     reset_password_hash: String,
     reset_password_expiry: Date,
     otp: String,
+    otp_verify:Boolean,
     created_by: {
       type: Schema.Types.ObjectId,
       ref: "user",

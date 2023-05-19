@@ -155,9 +155,12 @@ const userController = {
         Mail("", email, subject, text, html);
         let query: any = {
           otp,
+          otp_verify: true,
         };
         let updated = await UserService.updateUser({ _id: user._id }, query);
         if (updated) {
+          let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
+          delete user.password;
           res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.SEND_OTP, data: user });
         }
       } else {
@@ -173,13 +176,12 @@ const userController = {
       let email = req.body.email.trim().toLowerCase();
       let user: IUser = await UserService.userDetailsWithPassword(undefined, email);
       if (user) {
-        if (user.otp === req.body.otp) {
-          let otp: any = otpGenerator();
+        if (user.otp === req.body.otp && user.otp_verify) {
           let query: any = {
-            otp,
+            otp_verify: false,
           };
-          let updated = await UserService.updateUser({ _id: user._id }, query);
-          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.VERIFY_OTP, data: user });
+          await UserService.updateUser({ _id: user._id }, query);
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.VERIFY_OTP });
         }
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.VERIFY_OTP_FAILED });
       } else {
