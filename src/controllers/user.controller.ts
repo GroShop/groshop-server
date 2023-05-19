@@ -143,6 +143,30 @@ const userController = {
       next(err);
     }
   },
+  editPassword: async (req: IRequest, res: IResponse, next: INextFunction) => {
+    try {
+      let email = req.body.email.trim().toLowerCase();
+      let user: IUser = await UserService.userDetails(undefined, email);
+      const salt = parseInt(process.env.SALT, 10);
+      if (user) {
+        let hash = await bcrypt.hash(req.body.password, salt);
+        let query: any = {
+          password: hash,
+        };
+        let updated = await UserService.updateUser({ _id: user._id }, query);
+        if (!updated) {
+          throw new Error(USER_RESPONSE.FAILED_TO_EDIT_USER);
+        } else {
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.PASSWORD_CHANGED, data: user });
+        }
+      } else {
+        res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.USER_DOESNT_EXIST });
+      }
+    } catch (err) {
+      err.desc = USER_RESPONSE.FAILED_TO_CHANGE_PASSWORD;
+      next(err);
+    }
+  },
   sendOtp: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       let email = req.body.email.trim().toLowerCase();
