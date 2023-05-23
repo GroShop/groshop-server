@@ -12,6 +12,7 @@ import { IUser, IResponse, IRequest, INextFunction } from "../helpers/interface.
 import { otpGenerator } from "../helpers/functions.helper";
 import Mail from "../helpers/mail.helper";
 import { EMAIL_TEMPLATES } from "../constants/email.constant";
+import { ROLE } from "../constants/user.constant";
 
 const numbers = "0123456789";
 const nanoid = customAlphabet(numbers, 6);
@@ -65,6 +66,7 @@ const userController = {
         let hash = await bcrypt.hash(req.body.password, salt);
         req.body.password = hash;
         req.body.email = email;
+        req.body.role = ROLE.USER;
         // Store hash in your password DB.
         await UserService.createUser(req.body);
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED });
@@ -89,6 +91,47 @@ const userController = {
       } else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.EMAIL_ALREADY_EXIST });
       }
+    } catch (error) {
+      error.desc = USER_RESPONSE.SIGNUP_FAILED;
+      next(error);
+    }
+  },
+  socialSignIn: async (req: IRequest, res: IResponse, next: INextFunction) => {
+    try {
+      let email = req.body.email.trim().toLowerCase();
+      let user: IUser = await UserService.userDetails(undefined, email);
+      const salt = parseInt(process.env.SALT, 10);
+      if (!user) {
+        let password = nanoid(10);
+        let hash = await bcrypt.hash(password, salt);
+        req.body.password = hash;
+        req.body.email = email;
+        req.body.role = ROLE.USER;
+        req.body.email_verified = true;
+        // Store hash in your password DB.
+     let user:any= await UserService.createUser(req.body);
+        let token = await UserService.generateToken(user._id, user.email, user.role);
+        delete user.password;
+        res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user.role, data: user });
+      } else if (user) {
+        req.body.email = email;
+        req.body.is_deleted = false;
+        // Store hash in your password DB.
+        let query = { _id: user._id };
+        const updated = await UserService.updateUser(query, req.body);
+        if (updated) {
+          let token = await UserService.generateToken(user._id, user.email, user.role);
+          delete user.password;
+          res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_EXIST, token, role: user.role, data: user });
+          // let confirmation = await UserService.sendConfirmationMail(email);
+          // if (!confirmation) {
+          //   res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.CONFIRMATION_EMAIL_FAILED });
+          // }
+         
+        } else {
+          res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.SIGNUP_FAILED });
+        }
+      } 
     } catch (error) {
       error.desc = USER_RESPONSE.SIGNUP_FAILED;
       next(error);

@@ -9,9 +9,8 @@ const schema = new Schema(
     confirmed: Boolean,
     social_account_type: String,  
     email_confirmation_id: String,
+    email_verified: Boolean,
     username: String,
-    reset_password_hash: String,
-    reset_password_expiry: Date,
     otp: String,
     otp_verify:Boolean,
     created_by: {

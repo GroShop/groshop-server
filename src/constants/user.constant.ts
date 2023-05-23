@@ -6,14 +6,10 @@ const USER = {
   FORGET_PASSWORD: "Forget Password",
 };
 
-export enum ROLE {
-  SUPER_ADMIN = "SUPER_ADMIN",
-  ORG_ADMIN = "ORG_ADMIN",
-}
 
-export enum API_TYPE {
+export enum ROLE {
   USER = "USER",
-  ORG = "ORG",
+  ADMIN = "ADMIN",
 }
 
 export enum ACTION_TYPE {

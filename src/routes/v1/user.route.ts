@@ -23,4 +23,6 @@ router.post("/reset_password", UserController.editPassword);
 
 router.post("/view_user", UserController.verifyToken, UserController.viewUser);
 
+router.post("/social_signin", UserController.socialSignIn);
+
 export default router;
