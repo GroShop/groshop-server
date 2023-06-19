@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { Request, Response, NextFunction } from "express";
+import { NumberFilter } from "aws-sdk/clients/inspector2";
 
 export interface IRequest extends Request {
   decoded: IDecoded;
@@ -105,8 +106,6 @@ export interface INotification {
   modified_at?: string;
 }
 
-
-
 export interface IMongooseUpdate {
   acknowledged: Boolean;
   modifiedCount: number;
@@ -116,3 +115,82 @@ export interface IMongooseUpdate {
   n?: number;
 }
 
+export interface IProduct {
+  _id: string | Types.ObjectId;
+  name?: string;
+  price?: number;
+  product_pic?: string;
+  tag?: Array<undefined>;
+  categories?: string;
+  description?: string;
+  rating?: number;
+  stock?: number;
+  discount?: number;
+}
+
+export interface IPopulatedProduct {
+  _id: string | Types.ObjectId;
+  name?: string;
+  price?: number;
+  product_pic?: string;
+  tag?: Array<undefined>;
+  categories?: string;
+  description?: string;
+  rating?: number;
+  stock?: number;
+  discount?: number;
+}
+
+export interface ICreateProduct {
+  name: string;
+  price: number;
+  product_pic: string;
+  tag?: Array<undefined>;
+  categories?: string;
+  description?: string;
+  rating?: number;
+  stock?: number;
+  discount?: number;
+}
+export interface IQueryProduct {
+  _id?: string;
+  is_deleted?: boolean;
+  name?: string;
+  price?: number;
+  product_pic?: string;
+  tag?: Array<undefined>;
+  categories?: string;
+  description?: string;
+  rating?: number;
+  stock?: number;
+  discount?: number;
+}
+export interface IPaginationProduct extends IPaginationResponse {
+  docs: IPopulatedProduct[];
+}
+export interface IEditProduct {
+  _id: string;
+  name?: string;
+  price?: number;
+  product_pic?: string;
+  tag?: Array<undefined>;
+  categories?: string;
+  description?: string;
+  rating?: number;
+  stock?: number;
+  discount?: number;
+}
+export interface IQuerySearchProduct {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>;
+  name?: string;
+  price?: number;
+  product_pic?: string;
+  tag?: Array<undefined>;
+  categories?: string;
+  description?: string;
+  rating?: number;
+  stock?: number;
+  discount?: number;
+}

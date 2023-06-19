@@ -11,6 +11,7 @@ import connectDB from "./db";
 
 
 import userRoute from "./routes/v1/user.route";
+import productRoute from "./routes/v1/product.route";
 //_NR_
 
 // create server
@@ -58,6 +59,7 @@ app.use(fileUpload());
 
 // routes
 app.use("/api/v1/auth", userRoute);
+app.use("/api/v1/product", productRoute);
 //_NRD_
 
 //Error Handling

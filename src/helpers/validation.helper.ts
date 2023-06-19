@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const createUser = Joi.object({
-  username:Joi.string().required(),
+  username: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
   role: Joi.string().optional(),
@@ -31,3 +31,26 @@ export const login = Joi.object({
   password: Joi.string().required(),
 });
 
+export const createProduct = Joi.object({
+  name: Joi.string().required(),
+  price: Joi.number().required(),
+  product_pic: Joi.string().required(),
+  tag: Joi.array().optional(),
+  categories: Joi.string().optional(),
+  description: Joi.string().optional(),
+  rating: Joi.number().optional(),
+  stock: Joi.number().optional(),
+  discount: Joi.number().optional(),
+});
+
+export const editProduct = Joi.object({
+  product_id: Joi.string().required(),
+  name: Joi.string().optional(),
+  price: Joi.number().optional(),
+  product_pic: Joi.string().optional(),
+  rating: Joi.string().optional(),
+});
+
+export const deleteProduct = Joi.object({
+  product_id: Joi.string().required(),
+});

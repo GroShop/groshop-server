@@ -60,3 +60,15 @@ export const NOTIFICATION_RESPONSE = {
   GET_MANY_FAILED: "Failed to fetch Notifications",
   UPDATE_FAILED: "Notification update failed",
 };
+
+export const PRODUCT_RESPONSE ={
+  CREATE_SUCCESS: "Created product successfully",
+  CREATE_FAILED:"Created product failed",
+  GET_SUCCESS:"Get product success",
+  GET_FAILED:"Get product failed",
+  ALREADY_EXIST:"Product Already exist",
+  GET_MANY_SUCCESS:"Get all product successfully",
+  GET_MANY_FAILED:"Get all product failed",
+  EDIT_SUCCESS:"Edit product successfully",
+  EDIT_FAILED:"edit product failed"
+}
