@@ -119,6 +119,7 @@ export interface IProduct {
   _id: string | Types.ObjectId;
   name?: string;
   price?: number;
+  collection_pic?: Array<undefined>;
   product_pic?: string;
   tag?: Array<undefined>;
   categories?: string;
@@ -146,6 +147,7 @@ export interface ICreateProduct {
   price: number;
   product_pic: string;
   tag?: Array<undefined>;
+  collection_pic?: Array<undefined>;
   categories?: string;
   description?: string;
   rating?: number;
@@ -158,6 +160,7 @@ export interface IQueryProduct {
   name?: string;
   price?: number;
   product_pic?: string;
+  collection_pic?: Array<undefined>;
   tag?: Array<undefined>;
   categories?: string;
   description?: string;
@@ -174,6 +177,7 @@ export interface IEditProduct {
   price?: number;
   product_pic?: string;
   tag?: Array<undefined>;
+  collection_pic?: Array<undefined>;
   categories?: string;
   description?: string;
   rating?: number;
@@ -183,6 +187,7 @@ export interface IEditProduct {
 export interface IQuerySearchProduct {
   _id?: string;
   $or?: Array<object>;
+  collection_pic?: Array<undefined>;
   $and?: Array<object>;
   name?: string;
   price?: number;

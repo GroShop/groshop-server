@@ -5,6 +5,7 @@ const schema = new Schema(
   {
     name: String,
     price: Number,
+    collection_pic: [String],
     product_pic: String,
     tag: Array,
     categories: String,

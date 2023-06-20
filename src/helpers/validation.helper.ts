@@ -33,7 +33,7 @@ export const login = Joi.object({
 
 export const createProduct = Joi.object({
   name: Joi.string().required(),
-  price: Joi.number().required(),
+  price:  Joi.number().optional(),
   product_pic: Joi.string().required(),
   tag: Joi.array().optional(),
   categories: Joi.string().optional(),

@@ -1,6 +1,6 @@
 
 import Product from "../models/product.model";
-import { ICreateProduct, IProduct, IPopulatedProduct, IEditProduct, IQueryProduct, IMongooseUpdate, IPaginationProduct, IPaginationOption } from "../helpers/interface.helper";
+import { ICreateProduct, IProduct, IPopulatedProduct, IEditProduct, IQueryProduct, IMongooseUpdate, IPaginationProduct,  } from "../helpers/interface.helper";
 
 const ProductService = {
   createProduct: async (body: ICreateProduct): Promise<IProduct> => {
@@ -25,7 +25,7 @@ const ProductService = {
     const products: IProduct[] = await Product.find(query).lean();
     return products;
   },
-  getManyProductWithPagination: async (query: IQueryProduct, options: IPaginationOption): Promise<IPaginationProduct> => {
+  getManyProductWithPagination: async (query: IQueryProduct, options: any): Promise<IPaginationProduct> => {
     query.is_deleted = false;
     const totalDocs = await Product.find(query).count();
     const products: IPopulatedProduct[] = await Product.find(query).sort(options.sort).skip(options.skip).limit(options.limit).lean();
