@@ -40,18 +40,26 @@ const ProductController = {
   getManyProduct: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { skip = 0, limit = 10, search } = req.body;
-      let query: IQuerySearchProduct = {};
+      let query: any = {};
       if (search && search.length > 0) {
         query = {
           ...query,
-          $or: [
-            { name: { $regex: search, $options: "i" } },
-            { price: { $regex: search, $options: "i" } },
-            { product_pic: { $regex: search, $options: "i" } },
-          ],
+          $or: [{ name: { $regex: search, $options: "i" } }, { categories: { $regex: search, $options: "i" } }],
         };
       }
-      const products = await ProductService.getManyProductWithPagination(query, { skip, limit, sort: { created_at: -1 } });
+      if (!_.isEmpty(req.body.tag)) {
+        query.tag = { $in: req.body.tag };
+      }
+      if (!_.isEmpty(req.body.categories)) {
+        query.categories = req.body.categories ;
+      }
+      if (_.isNumber(req.body.min_price)) {
+        query.price = { $gt: req.body.min_price, $lt: req.body.max_price };
+      }
+      if (_.isNumber(req.body.max_rating)) {
+        query.rating = { $gt: req.body.min_rating, $lt: req.body.max_rating };
+      }     
+      const products = await ProductService.getManyProductWithPagination(query, { sort: { created_at: -1 } });
       res.send({
         status: STATUS.SUCCESS,
         message: PRODUCT_RESPONSE.GET_MANY_SUCCESS,

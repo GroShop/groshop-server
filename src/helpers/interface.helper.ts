@@ -155,16 +155,16 @@ export interface ICreateProduct {
   discount?: number;
 }
 export interface IQueryProduct {
-  _id?: string;
+  _id?: string | Types.ObjectId;
   is_deleted?: boolean;
   name?: string;
-  price?: number;
+  price?: any;
   product_pic?: string;
   collection_pic?: Array<undefined>;
   tag?: Array<undefined>;
   categories?: string;
   description?: string;
-  rating?: number;
+  rating?: any;
   stock?: number;
   discount?: number;
 }
@@ -185,7 +185,7 @@ export interface IEditProduct {
   discount?: number;
 }
 export interface IQuerySearchProduct {
-  _id?: string;
+  _id?: string | Types.ObjectId;
   $or?: Array<object>;
   collection_pic?: Array<undefined>;
   $and?: Array<object>;
@@ -198,4 +198,47 @@ export interface IQuerySearchProduct {
   rating?: number;
   stock?: number;
   discount?: number;
+}
+
+export interface ISearchProduct {
+  _id: string | Types.ObjectId;
+  product?: Array<string>;
+  search_product?: Array<string>;
+  created_by?: string;
+}
+export interface IPopulatedSearchProduct {
+  _id: string | Types.ObjectId;
+  product?: IProduct;
+  search_product?: IProduct;
+  created_by?: IUser;
+}
+
+export interface ICreateSearchProduct {
+  product?: Array<String> | any;
+  search_product?: Array<String>  | any;
+  created_by?: string;
+}
+export interface IQuerySearchProduct {
+  _id?: string | Types.ObjectId;
+  is_deleted?: boolean;
+  product?: string;
+  search_product?: string;
+  created_by?: string;
+}
+export interface IPaginationSearchProduct extends IPaginationResponse {
+  docs: IPopulatedSearchProduct[];
+}
+export interface IEditSearchProduct {
+  _id: string;
+  product?: IProduct;
+  search_product?: IProduct;
+  created_by?: IUser;
+}
+export interface IQuerySearchProduct {
+  _id?: string | Types.ObjectId;
+  $or?: Array<object>;
+  $and?: Array<object>;
+  product?: string;
+  search_product?: string;
+  created_by?: string;
 }

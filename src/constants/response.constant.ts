@@ -72,3 +72,16 @@ export const PRODUCT_RESPONSE ={
   EDIT_SUCCESS:"Edit product successfully",
   EDIT_FAILED:"edit product failed"
 }
+export const SEARCHPRODUCT_RESPONSE = {
+  CREATE_SUCCESS: "searchProduct created successfully",
+  CREATE_FAILED: "Failed to create searchproduct",
+  GET_SUCCESS: "searchProduct found",
+  GET_FAILED: "searchProduct not found",
+  GET_MANY_SUCCESS: "searchProducts found",
+  GET_MANY_FAILED: "searchProducts not found",
+  EDIT_SUCCESS: "searchProduct edited successfully",
+  EDIT_FAILED: "Failed to edit searchproduct",
+  DELETE_SUCCESS: "searchProduct deleted successfully",
+  DELETE_FAILED: "Failed to delete searchproduct",
+  ALREADY_EXIST: "searchProduct already exists",
+};

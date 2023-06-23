@@ -54,3 +54,19 @@ export const editProduct = Joi.object({
 export const deleteProduct = Joi.object({
   product_id: Joi.string().required(),
 });
+
+export const createSearchProduct = Joi.object({
+  product_id: Joi.string().optional(),
+search_product: Joi.string().optional(),
+created_by: Joi.string().optional(),
+
+});
+
+export const editSearchProduct = Joi.object({
+  search_product: Joi.string().optional(),
+  product: Joi.array().optional(),
+});
+
+export const deleteSearchProduct = Joi.object({
+  search_product_id: Joi.string().required(),
+});

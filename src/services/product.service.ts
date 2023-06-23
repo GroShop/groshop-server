@@ -20,9 +20,9 @@ const ProductService = {
     const product: IProduct = await Product.findOne(query).lean();
     return product;
   },
-  getManyProduct: async (query: IQueryProduct): Promise<IProduct[]> => {
+  getManyProduct: async (query: IQueryProduct,options:any): Promise<IProduct[]> => {
     query.is_deleted = false;
-    const products: IProduct[] = await Product.find(query).lean();
+    const products: IProduct[] = await Product.find(query).sort(options.sort).lean();
     return products;
   },
   getManyProductWithPagination: async (query: IQueryProduct, options: any): Promise<IPaginationProduct> => {
