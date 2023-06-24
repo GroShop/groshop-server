@@ -33,7 +33,7 @@ export const login = Joi.object({
 
 export const createProduct = Joi.object({
   name: Joi.string().required(),
-  price:  Joi.number().optional(),
+  price: Joi.number().optional(),
   product_pic: Joi.string().required(),
   tag: Joi.array().optional(),
   categories: Joi.string().optional(),
@@ -57,9 +57,8 @@ export const deleteProduct = Joi.object({
 
 export const createSearchProduct = Joi.object({
   product_id: Joi.string().optional(),
-search_product: Joi.string().optional(),
-created_by: Joi.string().optional(),
-
+  search_product: Joi.string().optional(),
+  created_by: Joi.string().optional(),
 });
 
 export const editSearchProduct = Joi.object({
@@ -69,4 +68,18 @@ export const editSearchProduct = Joi.object({
 
 export const deleteSearchProduct = Joi.object({
   search_product_id: Joi.string().required(),
+});
+
+export const createwishlist = Joi.object({
+  wishlist_product: Joi.string().optional(),
+  created_by: Joi.string().optional(),
+});
+
+export const editwishlist = Joi.object({
+  wishlist_id: Joi.string().required(),
+  wishlist_product: Joi.string().optional(),
+});
+
+export const deletewishlist = Joi.object({
+  wishlist_id: Joi.string().required(),
 });

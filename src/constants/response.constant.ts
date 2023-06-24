@@ -85,3 +85,17 @@ export const SEARCHPRODUCT_RESPONSE = {
   DELETE_FAILED: "Failed to delete searchproduct",
   ALREADY_EXIST: "searchProduct already exists",
 };
+
+export const WISHLIST_RESPONSE = {
+  CREATE_SUCCESS: "wishlist created successfully",
+  CREATE_FAILED: "Failed to create wishlist",
+  GET_SUCCESS: "wishlist found",
+  GET_FAILED: "wishlist not found",
+  GET_MANY_SUCCESS: "wishlists found",
+  GET_MANY_FAILED: "wishlists not found",
+  EDIT_SUCCESS: "wishlist edited successfully",
+  EDIT_FAILED: "Failed to edit wishlist",
+  DELETE_SUCCESS: "wishlist deleted successfully",
+  DELETE_FAILED: "Failed to delete wishlist",
+  ALREADY_EXIST: "wishlist already exists",
+};

@@ -6,6 +6,9 @@ const Populate = {
   product: {
     path: "product search_product",
   },
+  wishlist:{
+    path:"wishlist_product"
+  },
   from: {
     path: "from",
     select: "email username profile name",

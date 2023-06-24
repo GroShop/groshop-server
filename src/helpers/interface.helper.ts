@@ -215,7 +215,7 @@ export interface IPopulatedSearchProduct {
 
 export interface ICreateSearchProduct {
   product?: Array<String> | any;
-  search_product?: Array<String>  | any;
+  search_product?: Array<String> | any;
   created_by?: string;
 }
 export interface IQuerySearchProduct {
@@ -240,5 +240,43 @@ export interface IQuerySearchProduct {
   $and?: Array<object>;
   product?: string;
   search_product?: string;
+  created_by?: string;
+}
+
+export interface Iwishlist {
+  _id: string | Types.ObjectId;
+  wishlist_product?: array;
+  created_by?: string;
+}
+
+export interface IPopulatedwishlist {
+  _id: string | Types.ObjectId;
+  wishlist_product?: IProduct;
+  created_by?: IUser;
+}
+
+export interface ICreatewishlist {
+  wishlist_product?: Array<String>;
+  created_by?: string;
+}
+export interface IQuerywishlist {
+  _id?: string;
+  is_deleted?: boolean;
+  wishlist_product?: string;
+  created_by?: string;
+}
+export interface IPaginationwishlist extends IPaginationResponse {
+  docs: IPopulatedwishlist[];
+}
+export interface IEditwishlist {
+  _id: string;
+  wishlist_product?: IProduct;
+  created_by?: IUser;
+}
+export interface IQuerySearchwishlist {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>;
+  wishlist_product?: string;
   created_by?: string;
 }
