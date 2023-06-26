@@ -99,3 +99,17 @@ export const WISHLIST_RESPONSE = {
   DELETE_FAILED: "Failed to delete wishlist",
   ALREADY_EXIST: "wishlist already exists",
 };
+
+export const CART_RESPONSE = {
+  CREATE_SUCCESS: "Cart created successfully",
+  CREATE_FAILED: "Failed to create cart",
+  GET_SUCCESS: "Cart found",
+  GET_FAILED: "Cart not found",
+  GET_MANY_SUCCESS: "Carts found",
+  GET_MANY_FAILED: "Carts not found",
+  EDIT_SUCCESS: "Cart edited successfully",
+  EDIT_FAILED: "Failed to edit cart",
+  DELETE_SUCCESS: "Cart deleted successfully",
+  DELETE_FAILED: "Failed to delete cart",
+  ALREADY_EXIST: "You have this item in your cart already",
+};

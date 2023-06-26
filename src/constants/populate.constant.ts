@@ -9,6 +9,9 @@ const Populate = {
   wishlist:{
     path:"wishlist_product"
   },
+  cart:{
+    path:"cart_product"
+  },
   from: {
     path: "from",
     select: "email username profile name",

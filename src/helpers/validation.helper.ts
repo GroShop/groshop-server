@@ -83,3 +83,21 @@ export const editwishlist = Joi.object({
 export const deletewishlist = Joi.object({
   wishlist_id: Joi.string().required(),
 });
+
+export const createCart = Joi.object({
+  cart_product: Joi.string().required(),
+  status: Joi.string().optional(),
+  weight: Joi.number().required(),
+  created_by: Joi.string().optional(),
+});
+
+export const editCart = Joi.object({
+  cart_id: Joi.string().required(),
+  cart_product: Joi.string().optional(),
+  status: Joi.string().optional(),
+  weight: Joi.number().optional(),
+});
+
+export const deleteCart = Joi.object({
+  cart_id: Joi.string().required(),
+});

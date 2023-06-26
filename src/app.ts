@@ -14,6 +14,7 @@ import userRoute from "./routes/v1/user.route";
 import productRoute from "./routes/v1/product.route";
 import searchProductRoute from "./routes/v1/search_product.route";
 import wishlistRoute from "./routes/v1/wishlist.route";
+import CartRoute from "./routes/v1/cart.route";
 //_NR_
 
 // create server
@@ -64,6 +65,7 @@ app.use("/api/v1/auth", userRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/search_product", searchProductRoute);
 app.use("/api/v1/wishlist", wishlistRoute);
+app.use("/api/v1/cart", CartRoute);
 //_NRD_
 
 //Error Handling

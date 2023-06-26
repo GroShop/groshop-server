@@ -245,7 +245,7 @@ export interface IQuerySearchProduct {
 
 export interface Iwishlist {
   _id: string | Types.ObjectId;
-  wishlist_product?: array;
+  wishlist_product?: [];
   created_by?: string;
 }
 
@@ -278,5 +278,55 @@ export interface IQuerySearchwishlist {
   $or?: Array<object>;
   $and?: Array<object>;
   wishlist_product?: string;
+  created_by?: string;
+}
+
+export interface ICart {
+  _id: string | Types.ObjectId;
+  cart_product?: string;
+  status?: string;
+  weight?: number;
+  created_by?: string;
+}
+
+export interface IPopulatedCart {
+  _id: string | Types.ObjectId;
+  cart_product?: IProduct;
+  status?: string;
+  weight?: number;
+  created_by?: IUser;
+}
+
+export interface ICreateCart {
+  cart_product: string;
+  status?: string;
+  weight: number;
+  created_by?: string;
+}
+export interface IQueryCart {
+  _id?: string;
+  is_deleted?: boolean;
+  cart_product?: string;
+  status?: string;
+  weight?: number;
+  created_by?: string;
+}
+export interface IPaginationCart extends IPaginationResponse {
+  docs: IPopulatedCart[];
+}
+export interface IEditCart {
+  _id: string;
+  cart_product?: IProduct;
+  status?: string;
+  weight?: number;
+  created_by?: IUser;
+}
+export interface IQuerySearchCart {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>;
+  cart_product?: string;
+  status?: string;
+  weight?: number;
   created_by?: string;
 }
