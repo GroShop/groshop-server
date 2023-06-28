@@ -3,6 +3,7 @@ import _ from "lodash";
 import { STATUS, WISHLIST_RESPONSE } from "../constants/response.constant";
 import { IRequest, IResponse, INextFunction, IQuerySearchwishlist, Iwishlist } from "../helpers/interface.helper";
 import HTTP from "http-status-codes";
+import { WISHLIST } from "../constants/cart.constant";
 
 const wishlistController = {
   createWishlist: async (req: IRequest, res: IResponse, next: INextFunction) => {
@@ -11,7 +12,7 @@ const wishlistController = {
         created_by: req.decoded.id,
       };
       let getWishlist = await wishlistService.getWishlist(query);
-      let wishlist:Iwishlist;
+      let wishlist: Iwishlist;
       if (_.isEmpty(getWishlist)) {
         if (!_.isEmpty(req.body.wishlist_product)) {
           query.wishlist_product = [req.body.wishlist_product];
@@ -19,7 +20,16 @@ const wishlistController = {
         wishlist = await wishlistService.createWishlist(query);
       } else {
         let editWishlist: boolean;
-        if (_.some(getWishlist.wishlist_product, e => e._id.toString() === req.body.wishlist_product)) {
+        let checkWishlist: boolean = _.some(getWishlist.wishlist_product, e => e._id.toString() === req.body.wishlist_product);
+        if (req.body.cart === WISHLIST.CART_WISHLIST) {
+          if (!checkWishlist) {
+            editWishlist = await wishlistService.editWishlist(query, {
+              $push: { wishlist_product: { $each: [req.body.wishlist_product], $position: 0 } },
+            });
+          } else {
+            editWishlist = true;
+          }
+        } else if (checkWishlist) {
           editWishlist = await wishlistService.editWishlist(query, { $pull: { wishlist_product: req.body.wishlist_product } });
         } else {
           editWishlist = await wishlistService.editWishlist(query, {
@@ -81,15 +91,14 @@ const wishlistController = {
   getManyWishlist: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { skip = 0, limit = 10, search } = req.body;
-      let query: IQuerySearchwishlist = {
-      };
+      let query: IQuerySearchwishlist = {};
       if (search && search.length > 0) {
         query = {
           ...query,
           $or: [{ wishlist_product: { $regex: search, $options: "i" } }],
         };
       }
-      const wishlists = await wishlistService.getManyWishlist(query );
+      const wishlists = await wishlistService.getManyWishlist(query);
       res.send({
         status: STATUS.SUCCESS,
         message: WISHLIST_RESPONSE.GET_MANY_SUCCESS,
