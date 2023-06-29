@@ -330,3 +330,65 @@ export interface IQuerySearchCart {
   weight?: number;
   created_by?: string;
 }
+
+export interface IVoucher {
+  _id: string | Types.ObjectId;
+    name?: string;
+  discount?: number;
+  expire_voucher?: Date;
+user?: string;
+created_by?: string;
+
+}
+
+export interface IPopulatedVoucher {
+  _id: string | Types.ObjectId;
+    name?: string;
+  discount?: number;
+  expire_voucher?: Date;
+user?: IUser;
+created_by?: IUser;
+
+}
+
+export interface ICreateVoucher {
+    name: string;
+  discount?: number;
+  expire_voucher?: Date;
+  user?: string;
+  created_by?: string;
+
+}
+export interface IQueryVoucher {
+  _id?: string;
+  is_deleted?: boolean;
+    name?: string;
+  discount?: number;
+  expire_voucher?: Date;
+  user?: string;
+  created_by?: string;
+
+}
+export interface IPaginationVoucher extends IPaginationResponse {
+  docs: IPopulatedVoucher[];
+}
+export interface IEditVoucher {
+  _id: string;
+    name?: string;
+  discount?: number;
+  expire_voucher?: Date;
+  user?: IUser;
+  created_by?: IUser;
+
+}
+export interface IQuerySearchVoucher {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>
+    name?: string;
+  discount?: number;
+  expire_voucher?: Date;
+  user?: string;
+  created_by?: string;
+
+}

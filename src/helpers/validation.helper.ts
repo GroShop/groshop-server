@@ -102,3 +102,24 @@ export const editCart = Joi.object({
 export const deleteCart = Joi.object({
   cart_id: Joi.string().required(),
 });
+
+export const createVoucher = Joi.object({
+  name: Joi.string().required(),
+discount: Joi.number().optional(),
+expire_voucher: Joi.date().optional(),
+user: Joi.string().optional(),
+created_by: Joi.string().optional(),
+
+});
+
+export const editVoucher = Joi.object({
+  voucher_id: Joi.string().required(),
+  name: Joi.string().optional(),
+discount: Joi.number().optional(),
+expire_voucher: Joi.date().optional(),
+
+});
+
+export const deleteVoucher = Joi.object({
+  voucher_id: Joi.string().required(),
+});

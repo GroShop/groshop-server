@@ -113,3 +113,17 @@ export const CART_RESPONSE = {
   DELETE_FAILED: "Failed to delete cart",
   ALREADY_EXIST: "You have this item in your cart already",
 };
+
+export const VOUCHER_RESPONSE = {
+  CREATE_SUCCESS: "Voucher created successfully",
+  CREATE_FAILED: "Failed to create voucher",
+  GET_SUCCESS: "Voucher found",
+  GET_FAILED: "Voucher not found",
+  GET_MANY_SUCCESS: "Vouchers found",
+  GET_MANY_FAILED: "Vouchers not found",
+  EDIT_SUCCESS: "Voucher edited successfully",
+  EDIT_FAILED: "Failed to edit voucher",
+  DELETE_SUCCESS: "Voucher deleted successfully",
+  DELETE_FAILED: "Failed to delete voucher",
+  ALREADY_EXIST: "Voucher already exists",
+};
