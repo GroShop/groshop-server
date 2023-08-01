@@ -47,7 +47,9 @@ export const USER_RESPONSE = {
   SEND_OTP:"Send otp successfully",
   SEND_OTP_FAILED:"Send otp failed",
   VERIFY_OTP:"Verify otp successfully",
-  VERIFY_OTP_FAILED:"Verify otp failed"
+  VERIFY_OTP_FAILED:"Verify otp failed",
+  ADD_ADDRESS_SUCCESS:"Add address success",
+  ADD_ADDRESS_FAILED:"Add address failed",
 };
 
 export const NOTIFICATION_RESPONSE = {

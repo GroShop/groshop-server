@@ -109,7 +109,7 @@ const userController = {
         req.body.role = ROLE.USER;
         req.body.email_verified = true;
         // Store hash in your password DB.
-     let user:any= await UserService.createUser(req.body);
+        let user: any = await UserService.createUser(req.body);
         let token = await UserService.generateToken(user._id, user.email, user.role);
         delete user.password;
         res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.USER_CREATED, token, role: user.role, data: user });
@@ -127,11 +127,10 @@ const userController = {
           // if (!confirmation) {
           //   res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.CONFIRMATION_EMAIL_FAILED });
           // }
-         
         } else {
           res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: USER_RESPONSE.FAILED, message: USER_RESPONSE.SIGNUP_FAILED });
         }
-      } 
+      }
     } catch (error) {
       error.desc = USER_RESPONSE.SIGNUP_FAILED;
       next(error);
@@ -270,6 +269,22 @@ const userController = {
       }
     } catch (err) {
       err.desc = USER_RESPONSE.FAILED_TO_FETCH_USER;
+      next(err);
+    }
+  },
+  addAddress: async (req: IRequest, res: IResponse, next: INextFunction) => {
+    try {
+      let query = {
+        _id: req.decoded.id,
+      };
+      let updated = await UserService.updateUser(query, req.body);
+      if (!updated) {
+        throw new Error(USER_RESPONSE.FAILED_TO_EDIT_USER);
+      }
+      let getUser = await UserService.userDetails(req.decoded.id);
+      res.send({ status: USER_RESPONSE.SUCCESS, message: USER_RESPONSE.ADD_ADDRESS_SUCCESS, data: getUser });
+    } catch (err) {
+      err.desc = USER_RESPONSE.ADD_ADDRESS_FAILED;
       next(err);
     }
   },

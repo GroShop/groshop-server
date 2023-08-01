@@ -18,6 +18,13 @@ const schema = new Schema(
       ref: "user",
     },
     profile_picture: String,
+    address:[{
+      name:String,
+      place: String,
+      phone_number: String,
+      address: String,
+      default_address:Boolean,
+    }],
     is_deleted: { type: Boolean, default: false },
   },
   { timestamps: { createdAt: "created_at", updatedAt: "modified_at" } }

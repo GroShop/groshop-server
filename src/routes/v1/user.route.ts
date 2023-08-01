@@ -25,4 +25,6 @@ router.post("/view_user", UserController.verifyToken, UserController.viewUser);
 
 router.post("/social_signin", UserController.socialSignIn);
 
+router.post("/add_address",UserController.verifyToken, UserController.addAddress);
+
 export default router;
