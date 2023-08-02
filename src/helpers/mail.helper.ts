@@ -5,17 +5,16 @@ const Mail = (from: string, to: string, subject: string, text: string, html: any
     // Send Mail
     nodemailer.createTestAccount((err, account) => {
       const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
+        service: "gmail",
         auth: {
-            user: 'emie78@ethereal.email',
-            pass: '7fqTtk3w2n9R5ytsKF'
-        }
-    });
+          user: "harikrishna6525@gmail.com",
+          pass: process.env.EMAIL,
+        },
+      });
 
       // setup email data with unicode symbols
       let mailOptions = {
-        from: "<donotreply@gmail.com>", // sender address
+        from: "harikrishna6525@gmail.com", // sender address
         to: to, // list of receivers
         subject: subject, // Subject line
         text: text, // plain text body

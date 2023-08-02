@@ -11,6 +11,11 @@ import connectDB from "./db";
 
 
 import userRoute from "./routes/v1/user.route";
+import productRoute from "./routes/v1/product.route";
+import searchProductRoute from "./routes/v1/search_product.route";
+import wishlistRoute from "./routes/v1/wishlist.route";
+import CartRoute from "./routes/v1/cart.route";
+import VoucherRoute from "./routes/v1/voucher.route";
 //_NR_
 
 // create server
@@ -58,6 +63,11 @@ app.use(fileUpload());
 
 // routes
 app.use("/api/v1/auth", userRoute);
+app.use("/api/v1/product", productRoute);
+app.use("/api/v1/search_product", searchProductRoute);
+app.use("/api/v1/wishlist", wishlistRoute);
+app.use("/api/v1/cart", CartRoute);
+app.use("/api/v1/voucher", VoucherRoute);
 //_NRD_
 
 //Error Handling
