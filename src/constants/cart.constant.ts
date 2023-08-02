@@ -1,4 +1,4 @@
-export enum CART {
+export enum BOOKING {
   ORDERED_PLACED = "ORDERED PLACED",
   PROCESSING = "PROCESSING",
   DISPATCH = "DISPATCH",
@@ -8,6 +8,9 @@ export enum CART {
   CANCELLED = "CANCELLED",
 }
 
-export enum WISHLIST{
-  CART_WISHLIST="CART WISHLIST"
+export enum WISHLIST {
+  CART_WISHLIST = "CART WISHLIST",
+}
+export enum CART {
+  PAYMENT_SUCCESS = "Payment Success",
 }

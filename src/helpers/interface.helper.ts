@@ -283,112 +283,227 @@ export interface IQuerySearchwishlist {
 
 export interface ICart {
   _id: string | Types.ObjectId;
-  cart_product?: string;
-  status?: string;
-  weight?: number;
+  is_deleted?: boolean;
+  cart_product?: [
+    {
+      product?:string,
+      weight?: number;
+    }
+  ];
+  status?: string |{ $nin:[string]};
   created_by?: string;
 }
 
 export interface IPopulatedCart {
   _id: string | Types.ObjectId;
-  cart_product?: IProduct;
-  status?: string;
-  weight?: number;
-  created_by?: IUser;
+  is_deleted?: boolean;
+  cart_product?: [
+    {
+      product?:string,
+      weight?: number;
+    }
+  ];
+  status?: string |{ $nin:[string]};
+  created_by?: string;
 }
 
 export interface ICreateCart {
-  cart_product: string;
-  status?: string;
-  weight: number;
+  is_deleted?: boolean;
+  cart_product?: [
+    {
+      product?:string,
+      weight?: number;
+    }
+  ];
+  status?: string |{ $nin:[string]};
   created_by?: string;
 }
 export interface IQueryCart {
   _id?: string;
   is_deleted?: boolean;
-  cart_product?: string;
-  status?: string;
-  weight?: number;
+  cart_product?: [
+    {
+      product?:string,
+      weight?: number;
+    }
+  ];
+  status?: string |{ $nin:[string]};
   created_by?: string;
 }
 export interface IPaginationCart extends IPaginationResponse {
   docs: IPopulatedCart[];
 }
 export interface IEditCart {
-  _id: string;
-  cart_product?: IProduct;
-  status?: string;
-  weight?: number;
-  created_by?: IUser;
+  _id?: string;
+  is_deleted?: boolean;
+  cart_product?: [
+    {
+      product?:string,
+      weight?: number;
+      _id?: string;
+    }
+  ];
+  status?: string |{ $nin:[string]};
+  created_by?: string;
 }
 export interface IQuerySearchCart {
   _id?: string;
   $or?: Array<object>;
   $and?: Array<object>;
-  cart_product?: string;
-  status?: string;
-  weight?: number;
+  is_deleted?: boolean;
+  cart_product?: [
+    {
+      product?:string,
+      weight?: number;
+    }
+  ];
+  status?: string |{ $nin:[string]};
   created_by?: string;
 }
 
 export interface IVoucher {
   _id: string | Types.ObjectId;
-    name?: string;
+  name?: string;
   discount?: number;
   expire_voucher?: Date;
-user?: string;
-created_by?: string;
-
+  user?: string;
+  created_by?: string;
 }
 
 export interface IPopulatedVoucher {
   _id: string | Types.ObjectId;
-    name?: string;
+  name?: string;
   discount?: number;
   expire_voucher?: Date;
-user?: IUser;
-created_by?: IUser;
-
+  user?: IUser;
+  created_by?: IUser;
 }
 
 export interface ICreateVoucher {
-    name: string;
+  name: string;
   discount?: number;
   expire_voucher?: Date;
   user?: string;
   created_by?: string;
-
 }
 export interface IQueryVoucher {
   _id?: string;
   is_deleted?: boolean;
-    name?: string;
+  name?: string;
   discount?: number;
   expire_voucher?: Date;
   user?: string;
   created_by?: string;
-
 }
 export interface IPaginationVoucher extends IPaginationResponse {
   docs: IPopulatedVoucher[];
 }
 export interface IEditVoucher {
   _id: string;
-    name?: string;
+  name?: string;
   discount?: number;
   expire_voucher?: Date;
   user?: IUser;
   created_by?: IUser;
-
 }
 export interface IQuerySearchVoucher {
   _id?: string;
   $or?: Array<object>;
-  $and?: Array<object>
-    name?: string;
+  $and?: Array<object>;
+  name?: string;
   discount?: number;
   expire_voucher?: Date;
   user?: string;
   created_by?: string;
+}
+export interface IBooking {
+  _id: string | Types.ObjectId;
+  amount?: number;
+  cart?: string;
+  status?: string;
+  payment_type?: string;
+  delivery_time?: string;
+  address?: object;
+  voucher?: string;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay?: object;
+  created_by?: string;
+}
 
+export interface IPopulatedBooking {
+  _id: string | Types.ObjectId;
+  amount?: number;
+  cart?: ICart;
+  status?: string;
+  payment_type?: string;
+  delivery_time?: string;
+  address?: object;
+  voucher?: IVoucher;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay?: object;
+  created_by?: IUser;
+}
+
+export interface ICreateBooking {
+  amount: number;
+  cart:string;
+  status: string;
+  payment_type: string;
+  delivery_time?: string;
+  address: object;
+  voucher: string;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay?: object;
+  created_by?: string;
+}
+export interface IQueryBooking {
+  _id?: string;
+  is_deleted?: boolean;
+  amount?: number;
+  cart?: string;
+  status?: string;
+  payment_type?: string;
+  delivery_time?: string;
+  address?: object;
+  voucher?: string;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay?: object;
+  created_by?: string;
+}
+export interface IPaginationBooking extends IPaginationResponse {
+  docs: IPopulatedBooking[];
+}
+export interface IEditBooking {
+  _id: string;
+  amount?: number;
+  cart?: ICart;
+  status?: string;
+  payment_type?: string;
+  delivery_time?: string;
+  address?: object;
+  voucher?: IVoucher;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay?: object;
+  created_by?: IUser;
+}
+export interface IQuerySearchBooking {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>;
+  amount?: number;
+  cart?: string;
+  status?: string;
+  payment_type?: string;
+  delivery_time?: string;
+  address?: object;
+  voucher?: string;
+  razorpay_payment_id?: string;
+  razorpay_order_id?: string;
+  razorpay?: object;
+  created_by?: string;
 }
