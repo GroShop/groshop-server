@@ -129,3 +129,19 @@ export const VOUCHER_RESPONSE = {
   DELETE_FAILED: "Failed to delete voucher",
   ALREADY_EXIST: "Voucher already exists",
 };
+
+export const BOOKING_RESPONSE = {
+  CREATE_SUCCESS: "Booking created successfully",
+  CREATE_FAILED: "Failed to create booking",
+  GET_SUCCESS: "Booking found",
+  GET_FAILED: "Booking not found",
+  GET_MANY_SUCCESS: "Bookings found",
+  GET_MANY_FAILED: "Bookings not found",
+  EDIT_SUCCESS: "Booking edited successfully",
+  EDIT_FAILED: "Failed to edit booking",
+  DELETE_SUCCESS: "Booking deleted successfully",
+  DELETE_FAILED: "Failed to delete booking",
+  ALREADY_EXIST: "Booking already exists",
+  PAYMENT_SUCCESS: "Booking payment successfully",
+  PAYMENT_FAILED: "Booking payment failed",
+}

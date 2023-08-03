@@ -7,7 +7,7 @@ import {
   IQueryCart,
   IMongooseUpdate,
   IPaginationCart,
-  IPaginationOption,
+  // IPaginationOption,
 } from "../helpers/interface.helper";
 import Populate from "../constants/populate.constant";
 
@@ -26,7 +26,7 @@ const CartService = {
   },
   getCart: async (query: IQueryCart): Promise<ICart> => {
     query.is_deleted = false;
-    const cart: ICart = await Cart.findOne(query).lean();
+    const cart: ICart = await Cart.findOne(query).populate(Populate.cart).lean();
     return cart;
   },
   getManyCart: async (query: IQueryCart): Promise<ICart[]> => {
@@ -34,7 +34,7 @@ const CartService = {
     const carts: ICart[] = await Cart.find(query).populate(Populate.cart).lean();
     return carts;
   },
-  getManyCartWithPagination: async (query: IQueryCart, options: IPaginationOption): Promise<IPaginationCart> => {
+  getManyCartWithPagination: async (query: IQueryCart, options: any): Promise<IPaginationCart> => {
     query.is_deleted = false;
     const totalDocs = await Cart.find(query).count();
     const carts: IPopulatedCart[] = await Cart.find(query).sort(options.sort).skip(options.skip).limit(options.limit).lean();
@@ -46,8 +46,15 @@ const CartService = {
     };
     return result;
   },
-  editCart: async (query: IQueryCart, body: IEditCart): Promise<boolean> => {
-    const cart: IMongooseUpdate = await Cart.updateOne(query, { $set: body });
+  editCart: async (query: IQueryCart, body: any): Promise<boolean> => {
+    const cart: IMongooseUpdate = await Cart.updateOne(query,{$set: body});
+    if (cart.modifiedCount === 0) {
+      return false;
+    }
+    return true;
+  },
+  addCart: async (query: IQueryCart, body: any): Promise<boolean> => {
+    const cart: IMongooseUpdate = await Cart.updateOne(query, body,{ new: true });
     if (cart.modifiedCount === 0) {
       return false;
     }

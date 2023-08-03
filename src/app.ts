@@ -16,6 +16,7 @@ import searchProductRoute from "./routes/v1/search_product.route";
 import wishlistRoute from "./routes/v1/wishlist.route";
 import CartRoute from "./routes/v1/cart.route";
 import VoucherRoute from "./routes/v1/voucher.route";
+import BookingRoute from "./routes/v1/booking.route";
 //_NR_
 
 // create server
@@ -68,6 +69,7 @@ app.use("/api/v1/search_product", searchProductRoute);
 app.use("/api/v1/wishlist", wishlistRoute);
 app.use("/api/v1/cart", CartRoute);
 app.use("/api/v1/voucher", VoucherRoute);
+app.use("/api/v1/booking", BookingRoute);
 //_NRD_
 
 //Error Handling

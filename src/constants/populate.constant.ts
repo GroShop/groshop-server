@@ -10,7 +10,7 @@ const Populate = {
     path:"wishlist_product"
   },
   cart:{
-    path:"cart_product"
+    path:"cart_product.product"
   },
   from: {
     path: "from",

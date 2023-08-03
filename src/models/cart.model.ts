@@ -3,12 +3,13 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema(
   {
-    cart_product: {
-      type: mongoose.Types.ObjectId,
-      ref: "product",
-    },
+    cart_product: [
+      {
+        product: { type: mongoose.Types.ObjectId, ref: "product" },
+        weight: Number,
+      },
+    ],
     status: String,
-    weight: Number,
     created_by: {
       type: mongoose.Types.ObjectId,
       ref: "user",

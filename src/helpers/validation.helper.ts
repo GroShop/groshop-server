@@ -73,7 +73,7 @@ export const deleteSearchProduct = Joi.object({
 export const createwishlist = Joi.object({
   wishlist_product: Joi.string().optional(),
   created_by: Joi.string().optional(),
-  cart: Joi.string().optional()
+  cart: Joi.string().optional(),
 });
 
 export const editwishlist = Joi.object({
@@ -86,40 +86,73 @@ export const deletewishlist = Joi.object({
 });
 
 export const createCart = Joi.object({
-  cart_product: Joi.string().required(),
-  status: Joi.string().optional(),
+  product: Joi.string().required(),
   weight: Joi.number().required(),
+  status: Joi.string().optional(),
   created_by: Joi.string().optional(),
 });
 
 export const editCart = Joi.object({
-  cart_id: Joi.string().required(),
-  cart_product: Joi.string().optional(),
-  status: Joi.string().optional(),
+  cart_id: Joi.string().optional(),
+  product: Joi.string().optional(),
   weight: Joi.number().optional(),
+  cart_product: Joi.array().optional(),
+  status: Joi.string().optional(),
 });
 
 export const deleteCart = Joi.object({
-  cart_id: Joi.string().required(),
+  cart_id: Joi.string().optional(),
+  product: Joi.string().optional(),
+  weight: Joi.number().optional(),
 });
 
 export const createVoucher = Joi.object({
   name: Joi.string().required(),
-discount: Joi.number().optional(),
-expire_voucher: Joi.date().optional(),
-user: Joi.string().optional(),
-created_by: Joi.string().optional(),
-
+  discount: Joi.number().optional(),
+  expire_voucher: Joi.date().optional(),
+  user: Joi.string().optional(),
+  created_by: Joi.string().optional(),
 });
 
 export const editVoucher = Joi.object({
   voucher_id: Joi.string().required(),
   name: Joi.string().optional(),
-discount: Joi.number().optional(),
-expire_voucher: Joi.date().optional(),
-
+  discount: Joi.number().optional(),
+  expire_voucher: Joi.date().optional(),
 });
 
 export const deleteVoucher = Joi.object({
   voucher_id: Joi.string().required(),
+});
+
+export const createBooking = Joi.object({
+  amount: Joi.number().required(),
+  cart: Joi.string().required(),
+  status: Joi.string().required(),
+  payment_type: Joi.string().required(),
+  delivery_time: Joi.string().optional(),
+  address: Joi.object().required(),
+  voucher: Joi.string().required(),
+  razorpay_payment_id: Joi.string().optional(),
+  razorpay_order_id: Joi.string().optional(),
+  razorpay: Joi.object().optional(),
+  created_by: Joi.string().optional(),
+});
+
+export const editBooking = Joi.object({
+  booking_id: Joi.string().required(),
+  amount: Joi.number().optional(),
+  cart: Joi.string().optional(),
+  status: Joi.string().optional(),
+  payment_type: Joi.string().optional(),
+  delivery_time: Joi.string().optional(),
+  address: Joi.object().optional(),
+  voucher: Joi.string().optional(),
+  razorpay_payment_id: Joi.string().optional(),
+  razorpay_order_id: Joi.string().optional(),
+  razorpay: Joi.object().optional(),
+});
+
+export const deleteBooking = Joi.object({
+  booking_id: Joi.string().required(),
 });
