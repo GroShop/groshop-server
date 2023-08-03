@@ -108,11 +108,12 @@ const BookingController = {
   },
   webhookBooking: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      console.log("req", req);
       let webhook: any = await webhookValidation(req.body, req.headers["x-razorpay-signature"]);
-      console.log("webhook", webhook);
-      switch (webhook.event) {
-        case "payment.authorized":
+      if(webhook){
+        switch (req.body.event) {
+          case "payment.authorized":
+            console.log(' webhook.payload.payment.entity', webhook.payload.payment.entity);
+            
           const { order_id, id } = webhook.payload.payment.entity;
           const getBooking = await BookingService.getBooking({ razorpay_order_id: order_id });
           let query:any = {
@@ -130,6 +131,10 @@ const BookingController = {
           });
           break;
       }
+    }
+    else{
+      res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.FAILED, message: BOOKING_RESPONSE.PAYMENT_FAILED });
+    }
    
     } catch (err) {
       err.description = BOOKING_RESPONSE.DELETE_FAILED;
