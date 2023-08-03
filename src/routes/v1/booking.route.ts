@@ -17,7 +17,7 @@ router.post("/edit_booking", validator.body(Validation.editBooking), UserControl
 
 router.post("/delete_booking", validator.body(Validation.deleteBooking), UserController.verifyToken, BookingController.deleteBooking);
 
-router.post("/webhooks",  BookingController.deleteBooking);
+router.post("/webhooks",  BookingController.webhookBooking);
 
 export default router;
 // validator.body(Validation.createBooking)
