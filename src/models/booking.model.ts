@@ -10,7 +10,7 @@ const schema = new Schema(
       type: mongoose.Types.ObjectId,
       ref: "voucher",
     },
-    delivery_time: String,
+    delivery_time: Date,
     cart: 
       {
         type: mongoose.Types.ObjectId,

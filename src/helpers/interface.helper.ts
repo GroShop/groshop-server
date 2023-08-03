@@ -460,7 +460,7 @@ export interface ICreateBooking {
   created_by?: string;
 }
 export interface IQueryBooking {
-  _id?: string;
+  _id?:any;
   is_deleted?: boolean;
   amount?: number;
   cart?: string;

@@ -1,6 +1,6 @@
 
 import Booking from "../models/booking.model";
-import { ICreateBooking, IBooking, IPopulatedBooking, IEditBooking, IQueryBooking, IMongooseUpdate, IPaginationBooking, IPaginationOption } from "../helpers/interface.helper";
+import { ICreateBooking, IBooking, IPopulatedBooking, IEditBooking, IQueryBooking, IMongooseUpdate, IPaginationBooking } from "../helpers/interface.helper";
 
 const BookingService = {
   createBooking: async (body: ICreateBooking): Promise<IBooking> => {
@@ -25,7 +25,7 @@ const BookingService = {
     const bookings: IBooking[] = await Booking.find(query).lean();
     return bookings;
   },
-  getManyBookingWithPagination: async (query: IQueryBooking, options: IPaginationOption): Promise<IPaginationBooking> => {
+  getManyBookingWithPagination: async (query: IQueryBooking, options: any): Promise<IPaginationBooking> => {
     query.is_deleted = false;
     const totalDocs = await Booking.find(query).count();
     const bookings: IPopulatedBooking[] = await Booking.find(query).sort(options.sort).skip(options.skip).limit(options.limit).lean();

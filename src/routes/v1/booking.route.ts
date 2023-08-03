@@ -7,7 +7,7 @@ import expressValidator from "express-joi-validation";
 const validator = expressValidator.createValidator({});
 const router = express.Router();
 
-router.post("/create_booking", validator.body(Validation.createBooking), UserController.verifyToken, BookingController.createBooking);
+router.post("/create_booking", UserController.verifyToken, BookingController.createBooking);
 
 router.post("/get_booking", UserController.verifyToken, BookingController.getBooking);
 
@@ -17,4 +17,7 @@ router.post("/edit_booking", validator.body(Validation.editBooking), UserControl
 
 router.post("/delete_booking", validator.body(Validation.deleteBooking), UserController.verifyToken, BookingController.deleteBooking);
 
+router.post("/webhooks",  BookingController.deleteBooking);
+
 export default router;
+// validator.body(Validation.createBooking)
