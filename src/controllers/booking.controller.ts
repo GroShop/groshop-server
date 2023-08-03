@@ -112,13 +112,13 @@ const BookingController = {
       if(webhook){
         switch (req.body.event) {
           case "payment.authorized":
-            console.log(' webhook.payload.payment.entity', webhook.payload.payment.entity);
+            console.log(' webhook.payload.payment.entity', req.body.payload.payment.entity);
             
-          const { order_id, id } = webhook.payload.payment.entity;
+          const { order_id, id } = req.body.payload.payment.entity;
           const getBooking = await BookingService.getBooking({ razorpay_order_id: order_id });
           let query:any = {
             razorpay_payment_id: id,
-            razorpay: webhook.payload.payment.entity,
+            razorpay: req.body.payload.payment.entity,
             status: BOOKING.ORDERED_PLACED,
           };
           const update = await BookingService.editBooking({ _id: getBooking._id }, query);
