@@ -109,7 +109,7 @@ const BookingController = {
   webhookBooking: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       console.log("req", req);
-      let webhook: any = await webhookValidation(req.body, req.header["x-razorpay-signature"]);
+      let webhook: any = await webhookValidation(req.body, req.headers["x-razorpay-signature"]);
       console.log("webhook", webhook);
       switch (webhook.event) {
         case "payment.authorized":
