@@ -1,19 +1,27 @@
-
 import Booking from "../models/booking.model";
-import { ICreateBooking, IBooking, IPopulatedBooking, IEditBooking, IQueryBooking, IMongooseUpdate, IPaginationBooking } from "../helpers/interface.helper";
+import {
+  ICreateBooking,
+  IBooking,
+  IPopulatedBooking,
+  IEditBooking,
+  IQueryBooking,
+  IMongooseUpdate,
+  IPaginationBooking,
+} from "../helpers/interface.helper";
+import _ from "lodash";
 
 const BookingService = {
   createBooking: async (body: ICreateBooking): Promise<IBooking> => {
     const booking = await Booking.create(body);
-		const data: IBooking = await Booking.findOne({_id: booking._id}).lean();
+    const data: IBooking = await Booking.findOne({ _id: booking._id }).lean();
     // if(_.isEmpty(booking)){
     //   return false;
     // }
     // return true;
-    if(data) {
-			data._id = data._id.toString();
-		}
-		return data;
+    if (data) {
+      data._id = data._id.toString();
+    }
+    return data;
   },
   getBooking: async (query: IQueryBooking): Promise<IBooking> => {
     query.is_deleted = false;
@@ -50,6 +58,16 @@ const BookingService = {
       return false;
     }
     return true;
+  },
+  bookingStatus: async query => {
+    const getBooking = await Booking.find(query).lean();
+    if (!_.isEmpty(getBooking)) {
+      delete query.created_at;
+      for (let data of getBooking) {
+        await Booking.updateOne({ _id: data._id }, { $set: query });
+      }
+    }
+    return;
   },
 };
 

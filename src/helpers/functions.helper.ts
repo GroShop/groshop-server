@@ -1,5 +1,6 @@
 const fs = require("fs");
-import CryptoJS from 'crypto-js'
+import CryptoJS from "crypto-js";
+
 
 const rmArray = function (arr: any, attr: any, value: any) {
   var i = arr.length;
@@ -281,26 +282,27 @@ const arrayToText = (array: any) => {
   return str;
 };
 
-const otpGenerator =()=>{
-return Math.floor(1000 + Math.random() * 9000)
-}
+const otpGenerator = () => {
+  return Math.floor(1000 + Math.random() * 9000);
+};
 
 const webhookValidation = (body: any, razorpay_signature: any) => {
   // console.log('webhook data',body)
   // console.log('razorpay signature',razorpay_signature)
-  let shasum = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256,process.env.RAZORPAY_WEBHOOK_SECRET)
+  let shasum = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, process.env.RAZORPAY_WEBHOOK_SECRET);
   shasum.update(JSON.stringify(body));
-  shasum =  shasum.finalize();
+  shasum = shasum.finalize();
   const digest = CryptoJS.enc.Hex.stringify(shasum);
   if (digest === razorpay_signature) {
-    console.log('webhook validation',true)
+    console.log("webhook validation", true);
     return true;
-  } 
-  else {  
-    console.log('webhook validation',false)
-    return false
+  } else {
+    console.log("webhook validation", false);
+    return false;
   }
 };
+
+
 export {
   capitalizeFirstLetter,
   subtractTwoDates,
@@ -324,6 +326,5 @@ export {
   calculateTimeReturnValue,
   arrayToText,
   otpGenerator,
-  webhookValidation
-  
+  webhookValidation,
 };

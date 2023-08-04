@@ -9,7 +9,6 @@ import fileUpload from "express-fileupload";
 import { Server } from "socket.io";
 import connectDB from "./db";
 
-
 import userRoute from "./routes/v1/user.route";
 import productRoute from "./routes/v1/product.route";
 import searchProductRoute from "./routes/v1/search_product.route";
@@ -17,6 +16,7 @@ import wishlistRoute from "./routes/v1/wishlist.route";
 import CartRoute from "./routes/v1/cart.route";
 import VoucherRoute from "./routes/v1/voucher.route";
 import BookingRoute from "./routes/v1/booking.route";
+import { bookingCron } from "./helpers/cron.helper";
 //_NR_
 
 // create server
@@ -32,12 +32,13 @@ function assignId(req, res, next) {
 // config dotenv
 dotenv.config();
 
-
 // connect mongoose
 if (process.env.NODE_ENV === "test") {
   process.env.DB = process.env.TEST_DB;
 }
 connectDB();
+
+bookingCron();
 
 app.set("view engine", "ejs");
 
