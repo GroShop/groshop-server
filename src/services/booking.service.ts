@@ -9,6 +9,7 @@ import {
   IPaginationBooking,
 } from "../helpers/interface.helper";
 import _ from "lodash";
+import { BOOKING } from "../constants/cart.constant";
 
 const BookingService = {
   createBooking: async (body: ICreateBooking): Promise<IBooking> => {
@@ -63,6 +64,13 @@ const BookingService = {
     const getBooking = await Booking.find(query).lean();
     if (!_.isEmpty(getBooking)) {
       delete query.created_at;
+      if (query.status === BOOKING.ORDERED_PLACED) {
+        query.status = BOOKING.PROCESSING;
+      } else if (query.status === BOOKING.PROCESSING) {
+        query.status = BOOKING.DISPATCH;
+      } else if (query.status === BOOKING.DISPATCH) {
+        query.status = BOOKING.DELIVERED;
+      }
       for (let data of getBooking) {
         await Booking.updateOne({ _id: data._id }, { $set: query });
       }
