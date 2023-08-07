@@ -10,6 +10,7 @@ import {
 } from "../helpers/interface.helper";
 import _ from "lodash";
 import { BOOKING } from "../constants/cart.constant";
+import Populate from "../constants/populate.constant";
 
 const BookingService = {
   createBooking: async (body: ICreateBooking): Promise<IBooking> => {
@@ -26,7 +27,7 @@ const BookingService = {
   },
   getBooking: async (query: IQueryBooking): Promise<IBooking> => {
     query.is_deleted = false;
-    const booking: IBooking = await Booking.findOne(query).lean();
+    const booking: IBooking = await Booking.findOne(query).populate(Populate.booking).lean();
     return booking;
   },
   getManyBooking: async (query: IQueryBooking): Promise<IBooking[]> => {

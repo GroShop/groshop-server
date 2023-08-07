@@ -16,6 +16,12 @@ const Populate = {
     path: "from",
     select: "email username profile name",
   },
+  booking:{
+    path:'cart',
+    populate : {
+      path:"cart_product.product"
+    }
+  }
 };
 
 export default Populate;
