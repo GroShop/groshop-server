@@ -62,27 +62,31 @@ const BookingService = {
     return true;
   },
   bookingStatus: async query => {
-    const getBooking = await Booking.find(query).lean();
+    const getBooking:any = await Booking.find(query).lean();
     if (!_.isEmpty(getBooking)) {
+      let track=getBooking.tracking_status
       delete query.created_at;
       if (query.status === BOOKING.ORDERED_PLACED) {
         query.status = BOOKING.PROCESSING;
-        query.tracking_status.push({
+        track.push({
           status: BOOKING.PROCESSING,
           created_at:new Date()
         })
+        query.tracking_status=track
       } else if (query.status === BOOKING.PROCESSING) {
         query.status = BOOKING.DISPATCH;
-        query.tracking_status.push({
+        track.push({
           status:  BOOKING.DISPATCH,
           created_at:new Date()
         })
+        query.tracking_status=track
       } else if (query.status === BOOKING.DISPATCH) {
         query.status = BOOKING.DELIVERED;
-        query.tracking_status.push({
+        track.push({
           status: BOOKING.DELIVERED,
           created_at:new Date()
         })
+        query.tracking_status=track
       }
       for (let data of getBooking) {
         await Booking.updateOne({ _id: data._id }, { $set: query });
