@@ -35,6 +35,7 @@ const schema = new Schema(
       status:String,
       created_at: Date,
     }],
+    cancel_reason: String,
     is_deleted: {
       type: Boolean,
       default: false,
