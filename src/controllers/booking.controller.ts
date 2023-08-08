@@ -18,7 +18,6 @@ const BookingController = {
       body.status = BOOKING.QUEUED;
       body.created_by = req.decoded.id;
       body.razorpay_order_id = createOrder.id;
-      console.log("body", body);
       const booking = await BookingService.createBooking(body);
       if (booking) {
         res.send({
@@ -120,6 +119,10 @@ const BookingController = {
             razorpay_payment_id: id,
             razorpay: req.body.payload.payment.entity,
             status: BOOKING.ORDERED_PLACED,
+            tracking_status: [{
+              status: BOOKING.ORDERED_PLACED,
+              created_at: new Date(),
+            }],
           };
           const update = await BookingService.editBooking({ _id: getBooking._id }, query);
           if(!update){

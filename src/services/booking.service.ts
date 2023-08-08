@@ -67,10 +67,22 @@ const BookingService = {
       delete query.created_at;
       if (query.status === BOOKING.ORDERED_PLACED) {
         query.status = BOOKING.PROCESSING;
+        query.tracking_status.push({
+          status: BOOKING.PROCESSING,
+          created_at:new Date()
+        })
       } else if (query.status === BOOKING.PROCESSING) {
         query.status = BOOKING.DISPATCH;
+        query.tracking_status.push({
+          status:  BOOKING.DISPATCH,
+          created_at:new Date()
+        })
       } else if (query.status === BOOKING.DISPATCH) {
         query.status = BOOKING.DELIVERED;
+        query.tracking_status.push({
+          status: BOOKING.DELIVERED,
+          created_at:new Date()
+        })
       }
       for (let data of getBooking) {
         await Booking.updateOne({ _id: data._id }, { $set: query });

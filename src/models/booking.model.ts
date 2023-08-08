@@ -31,6 +31,10 @@ const schema = new Schema(
       type: mongoose.Types.ObjectId,
       ref: "user",
     },
+    tracking_status: [{
+      status:String,
+      created_at: Date,
+    }],
     is_deleted: {
       type: Boolean,
       default: false,
