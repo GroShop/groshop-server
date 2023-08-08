@@ -151,6 +151,7 @@ export const editBooking = Joi.object({
   razorpay_payment_id: Joi.string().optional(),
   razorpay_order_id: Joi.string().optional(),
   razorpay: Joi.object().optional(),
+  cancel_reason: Joi.string().optional(),
 });
 
 export const deleteBooking = Joi.object({

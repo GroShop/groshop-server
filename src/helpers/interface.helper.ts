@@ -429,6 +429,8 @@ export interface IBooking {
   razorpay_order_id?: string;
   razorpay?: object;
   created_by?: string;
+  cancel_reason?: string;
+
 }
 
 export interface IPopulatedBooking {
@@ -444,6 +446,7 @@ export interface IPopulatedBooking {
   razorpay_order_id?: string;
   razorpay?: object;
   created_by?: IUser;
+  cancel_reason?: string;
 }
 
 export interface ICreateBooking {
@@ -458,6 +461,7 @@ export interface ICreateBooking {
   razorpay_order_id?: string;
   razorpay?: object;
   created_by?: string;
+  cancel_reason?: string;
 }
 export interface IQueryBooking {
   _id?:any;
@@ -473,6 +477,7 @@ export interface IQueryBooking {
   razorpay_order_id?: string;
   razorpay?: object;
   created_by?: string;
+  cancel_reason?: string;
 }
 export interface IPaginationBooking extends IPaginationResponse {
   docs: IPopulatedBooking[];
@@ -490,6 +495,7 @@ export interface IEditBooking {
   razorpay_order_id?: string;
   razorpay?: object;
   created_by?: IUser;
+  cancel_reason?: string;
 }
 export interface IQuerySearchBooking {
   _id?: string;
@@ -506,4 +512,5 @@ export interface IQuerySearchBooking {
   razorpay_order_id?: string;
   razorpay?: object;
   created_by?: string;
+  cancel_reason?: string;
 }
