@@ -18,7 +18,7 @@ export const bookingCron = () => {
       await BookingService.bookingStatus(query);
       query = {
         created_at: { $gte: dispatch },
-        status: BOOKING.DISPATCH,
+        status: BOOKING.PROCESSING,
       };
       await BookingService.bookingStatus(query);
       query = {
