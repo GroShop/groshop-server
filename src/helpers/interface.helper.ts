@@ -29,7 +29,8 @@ export interface IUser {
   session_id?: Types.ObjectId;
   otp?: string;
   created_by?: Types.ObjectId;
-  profile?: string;
+  profile_pic?: string;
+  phone_number?: string;
   is_deleted?: boolean;
   created_at?: Date;
   modified_at?: Date;

@@ -17,7 +17,8 @@ const schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    profile_picture: String,
+    profile_pic: String,
+    phone_num: String,
     address:[{
       name:String,
       place: String,
