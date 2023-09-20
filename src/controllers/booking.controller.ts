@@ -4,8 +4,9 @@ import { STATUS, BOOKING_RESPONSE } from "../constants/response.constant";
 import { IRequest, IResponse, INextFunction, IQuerySearchBooking } from "../helpers/interface.helper";
 import HTTP from "http-status-codes";
 import RazorPayService from "../services/razorpay.service";
-import { BOOKING } from "../constants/cart.constant";
+import { BOOKING, CART } from "../constants/cart.constant";
 import { webhookValidation } from "../helpers/functions.helper";
+import CartService from "../services/cart.service";
 
 const BookingController = {
   createBooking: async (req: IRequest, res: IResponse, next: INextFunction) => {
@@ -19,12 +20,14 @@ const BookingController = {
       body.created_by = req.decoded.id;
       body.razorpay_order_id = createOrder.id;
       const booking = await BookingService.createBooking(body);
+
       if (booking) {
         res.send({
           status: STATUS.SUCCESS,
           message: BOOKING_RESPONSE.CREATE_SUCCESS,
           data: booking,
         });
+        await CartService.editCart({_id:req.body.cart},{status:CART.PAYMENT_SUCCESS})
       } else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.SUCCESS, message: BOOKING_RESPONSE.CREATE_FAILED });
       }
@@ -42,11 +45,32 @@ const BookingController = {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.FAILED, message: BOOKING_RESPONSE.GET_FAILED });
       }
     } catch (err) {
-      err.description = BOOKING_RESPONSE.GET_FAILED;
+      err.description = BOOKING_RESPONSE.GET_FAILED
       next(err);
     }
   },
   getManyBooking: async (req: IRequest, res: IResponse, next: INextFunction) => {
+    try {
+      const { skip = 0, limit = 10, search } = req.body;
+      let query: IQuerySearchBooking = {};
+      if (search && search.length > 0) {
+        query = {
+          ...query,
+          $or: [{ amount: { $regex: search, $options: "i" } }, { cart: { $regex: search, $options: "i" } }],
+        };
+      }
+      const bookings = await BookingService.getManyBooking(query, {  sort: { created_at: -1 } });
+      res.send({
+        status: STATUS.SUCCESS,
+        message: BOOKING_RESPONSE.GET_MANY_SUCCESS,
+        data: bookings,
+      });
+    } catch (err) {
+      err.description = BOOKING_RESPONSE.GET_MANY_FAILED;
+      next(err);
+    }
+  },
+  getManyBookingPagination: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { skip = 0, limit = 10, search } = req.body;
       let query: IQuerySearchBooking = {};

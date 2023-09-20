@@ -15,7 +15,7 @@ const CartController = {
           return res.send({ status: STATUS.SUCCESS, message: CART_RESPONSE.ALREADY_EXIST });
         }
         let update: any = { $push: { cart_product: req.body } };
-        cart = CartService.addCart({ created_by: req.decoded.id }, update);
+        cart = CartService.addCart({ _id:getCart._id }, update);
       } else {
         let query: any = {
           created_by: req.decoded.id,
@@ -42,10 +42,11 @@ const CartController = {
       const query: any = {
         created_by: req.decoded.id,
         ...req.body,
+        status :{ $nin: [CART.PAYMENT_SUCCESS] }
       };
-      if (req.body.status !== CART.PAYMENT_SUCCESS) {
-        query.status = { $nin: [CART.PAYMENT_SUCCESS] };
-      }
+      // if (req.body.status !== CART.PAYMENT_SUCCESS) {
+     
+      // }
       const cart = await CartService.getCart(query);
       if (!_.isEmpty(cart)) {
         res.send({ status: STATUS.SUCCESS, message: CART_RESPONSE.GET_SUCCESS, data: cart });
@@ -110,12 +111,10 @@ const CartController = {
       delete body.cart_id;
       const editedCart = await CartService.editCart({ _id: req.body.cart_id }, body);
       if (editedCart) {
-        const query = {
-          _id: req.body.cart_id,
-        };
-        const cart = await CartService.getCart(query);
-        console.log("cart", cart);
-
+        // const query = {
+        //   _id: req.body.cart_id,
+        // };
+        // await CartService.getCart(query);
         res.send({
           status: STATUS.SUCCESS,
           message: CART_RESPONSE.EDIT_SUCCESS,

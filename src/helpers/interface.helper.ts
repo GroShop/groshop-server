@@ -309,6 +309,7 @@ export interface IPopulatedCart {
 }
 
 export interface ICreateCart {
+  _id?: string |any;
   is_deleted?: boolean;
   cart_product?: [
     {
@@ -320,7 +321,7 @@ export interface ICreateCart {
   created_by?: string;
 }
 export interface IQueryCart {
-  _id?: string;
+  _id?: string |any;
   is_deleted?: boolean;
   cart_product?: [
     {

@@ -30,9 +30,9 @@ const BookingService = {
     const booking: IBooking = await Booking.findOne(query).populate(Populate.booking).lean();
     return booking;
   },
-  getManyBooking: async (query: IQueryBooking): Promise<IBooking[]> => {
+  getManyBooking: async (query: IQueryBooking,options:any): Promise<IBooking[]> => {
     query.is_deleted = false;
-    const bookings: IBooking[] = await Booking.find(query).lean();
+    const bookings: IBooking[] = await Booking.find(query).sort(options.sort).populate(Populate.booking).lean();
     return bookings;
   },
   getManyBookingWithPagination: async (query: IQueryBooking, options: any): Promise<IPaginationBooking> => {
