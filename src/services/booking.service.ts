@@ -64,7 +64,8 @@ const BookingService = {
   bookingStatus: async query => {
     const getBooking:any = await Booking.find(query).lean();
     if (!_.isEmpty(getBooking)) {
-      let track=getBooking.tracking_status
+      for (let data of getBooking) {
+      let track=data.tracking_status
       delete query.created_at;
       if (query.status === BOOKING.ORDERED_PLACED) {
         query.status = BOOKING.PROCESSING;
@@ -88,7 +89,6 @@ const BookingService = {
         })
         query.tracking_status=track
       }
-      for (let data of getBooking) {
         await Booking.updateOne({ _id: data._id }, { $set: query });
       }
     }
