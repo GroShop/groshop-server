@@ -38,7 +38,7 @@ const BookingController = {
   },
   getBooking: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      const booking = await BookingService.getBooking({ _id: req.body.booking_id });
+      const booking = await BookingService.getBooking({ _id: req.body.booking_id ,   created_by: req.decoded.id,});
       if (!_.isEmpty(booking)) {
         res.send({ status: STATUS.SUCCESS, message: BOOKING_RESPONSE.GET_SUCCESS, data: booking });
       } else {
@@ -52,7 +52,7 @@ const BookingController = {
   getManyBooking: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { skip = 0, limit = 10, search } = req.body;
-      let query: IQuerySearchBooking = {};
+      let query: IQuerySearchBooking = { created_by: req.decoded.id,};
       if (search && search.length > 0) {
         query = {
           ...query,
@@ -73,7 +73,7 @@ const BookingController = {
   getManyBookingPagination: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
       const { skip = 0, limit = 10, search } = req.body;
-      let query: IQuerySearchBooking = {};
+      let query: IQuerySearchBooking = { created_by: req.decoded.id,};
       if (search && search.length > 0) {
         query = {
           ...query,
