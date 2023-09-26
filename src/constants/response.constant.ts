@@ -145,3 +145,32 @@ export const BOOKING_RESPONSE = {
   PAYMENT_SUCCESS: "Booking payment successfully",
   PAYMENT_FAILED: "Booking payment failed",
 }
+
+
+export const MESSAGE_RESPONSE = {
+  CREATE_SUCCESS: "Message created successfully",
+  CREATE_FAILED: "Failed to create message",
+  GET_SUCCESS: "Message found",
+  GET_FAILED: "Message not found",
+  GET_MANY_SUCCESS: "Messages found",
+  GET_MANY_FAILED: "Messages not found",
+  EDIT_SUCCESS: "Message edited successfully",
+  EDIT_FAILED: "Failed to edit message",
+  DELETE_SUCCESS: "Message deleted successfully",
+  DELETE_FAILED: "Failed to delete message",
+  ALREADY_EXIST: "Message already exists",
+};
+
+export const CHAT_RESPONSE = {
+  CREATE_SUCCESS: "Chat created successfully",
+  CREATE_FAILED: "Failed to create chat",
+  GET_SUCCESS: "Chat found",
+  GET_FAILED: "Chat not found",
+  GET_MANY_SUCCESS: "Chats found",
+  GET_MANY_FAILED: "Chats not found",
+  EDIT_SUCCESS: "Chat edited successfully",
+  EDIT_FAILED: "Failed to edit chat",
+  DELETE_SUCCESS: "Chat deleted successfully",
+  DELETE_FAILED: "Failed to delete chat",
+  ALREADY_EXIST: "Chat already exists",
+};

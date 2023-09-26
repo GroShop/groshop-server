@@ -21,6 +21,9 @@ const Populate = {
     populate : {
       path:"cart_product.product"
     }
+  },
+  message:{
+    path:"chat"
   }
 };
 

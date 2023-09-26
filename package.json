@@ -58,7 +58,7 @@
     "path": "^0.12.7",
     "razorpay": "^2.9.1",
     "request": "^2.88.2",
-    "socket.io": "^4.4.1",
+    "socket.io": "^4.7.2",
     "supertest": "^6.2.2",
     "winston": "^3.6.0",
     "winston-cloudwatch": "^3.1.1"

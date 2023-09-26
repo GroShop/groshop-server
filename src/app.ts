@@ -32,6 +32,20 @@ function assignId(req, res, next) {
 // config dotenv
 dotenv.config();
 
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('senderMessage',(item:any)=>{
+// if(i)
+//     if()
+//     console.log('payload',payload);
+//   io.emit('senderMessage', payload);
+
+  
+  })
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
 // connect mongoose
 if (process.env.NODE_ENV === "test") {
   process.env.DB = process.env.TEST_DB;

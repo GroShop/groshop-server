@@ -516,3 +516,109 @@ export interface IQuerySearchBooking {
   created_by?: string;
   cancel_reason?: string;
 }
+
+export interface IMessage {
+  _id: string | Types.ObjectId;
+  cart?: string;
+  sender?: string;
+receiver?: array;
+  content?: string;
+
+}
+
+export interface IPopulatedMessage {
+  _id: string | Types.ObjectId;
+  cart?: ICart;
+  sender?: string;
+receiver?: IUser;
+  content?: string;
+
+}
+
+export interface ICreateMessage {
+    cart?: string;
+  sender?: string;
+  receiver: Array<undefined>;
+  content: string;
+
+}
+export interface IQueryMessage {
+  _id?: string | any;
+  is_deleted?: boolean;
+    cart?: string;
+  sender?: string;
+  receiver?: string;
+  content?: string;
+
+}
+export interface IPaginationMessage extends IPaginationResponse {
+  docs: IPopulatedMessage[];
+}
+export interface IEditMessage {
+  _id: string;
+    cart?: ICart;
+  sender?: string;
+  receiver?: IUser;
+  content?: string;
+
+}
+export interface IQuerySearchMessage {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>
+    cart?: string;
+  sender?: string;
+  receiver?: string;
+  content?: string;
+
+}
+export interface IChat {
+  _id: string | Types.ObjectId;
+  isAdmin?: array;
+  groupChat?: boolean;
+users?: array;
+
+}
+
+export interface IPopulatedChat {
+  _id: string | Types.ObjectId;
+  isAdmin?: IUser;
+  groupChat?: boolean;
+users?: IUser;
+
+}
+
+export interface ICreateChat {
+    isAdmin?: Array<undefined>;
+  groupChat?: boolean;
+  users: Array<undefined>;
+  lastMessage?: string | any;
+}
+export interface IQueryChat {
+  _id?: string;
+  is_deleted?: boolean;
+    isAdmin?: string;
+  groupChat?: boolean;
+  users?: string;
+  lastMessage?: string | any;
+}
+export interface IPaginationChat extends IPaginationResponse {
+  docs: IPopulatedChat[];
+}
+export interface IEditChat {
+  _id: string;
+    isAdmin?: IUser;
+  groupChat?: boolean;
+  users?: IUser;
+  lastMessage?: string | any;
+
+}
+export interface IQuerySearchChat {
+  _id?: string;
+  $or?: Array<object>;
+  $and?: Array<object>
+    isAdmin?: string;
+  groupChat?: boolean;
+  users?: string;
+  lastMessage?: string | any;
+}

@@ -157,3 +157,41 @@ export const editBooking = Joi.object({
 export const deleteBooking = Joi.object({
   booking_id: Joi.string().required(),
 });
+
+export const createMessage = Joi.object({
+  cart: Joi.string().optional(),
+sender: Joi.string().optional(),
+receiver: Joi.array().required(),
+content: Joi.string().required(),
+
+});
+
+export const editMessage = Joi.object({
+  message_id: Joi.string().required(),
+  sender: Joi.string().optional(),
+receiver: Joi.array().optional(),
+content: Joi.string().optional(),
+
+});
+
+export const deleteMessage = Joi.object({
+  message_id: Joi.string().required(),
+});
+
+export const createChat = Joi.object({
+  isAdmin: Joi.array().optional(),
+groupChat: Joi.boolean().optional(),
+users: Joi.array().required(),
+
+});
+
+export const editChat = Joi.object({
+  chat_id: Joi.string().required(),
+  groupChat: Joi.boolean().optional(),
+users: Joi.array().optional(),
+
+});
+
+export const deleteChat = Joi.object({
+  chat_id: Joi.string().required(),
+});
