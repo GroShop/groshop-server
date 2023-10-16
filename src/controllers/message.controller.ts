@@ -2,17 +2,17 @@
 import MessageService from "../services/message.service";
 import _ from "lodash";
 import { STATUS, MESSAGE_RESPONSE } from "../constants/response.constant";
-import { IRequest, IResponse, INextFunction, IQuerySearchMessage } from "../helpers/interface.helper";
+import { IRequest, IResponse, INextFunction, IQuerySearchMessage, IMessage, IChat } from "../helpers/interface.helper";
 import HTTP from "http-status-codes";
 import ChatService from "../services/chat.service";
 
 const MessageController = {
   createMessage: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      const message = await MessageService.createMessage(req.body);
-      await ChatService.editChat({_id:req.body.chat_id},{lastMessage:message._id})
-      const getMessage = await MessageService.getMessage({_id:message._id})
-      if (!_.isEmpty(getMessage)) {
+      const createMessage:IMessage | any = await MessageService.createMessage(req.body);
+      await ChatService.editChat({_id:req.body.chat_id},{lastMessage:createMessage._id})
+      const getMessage=await MessageService.getMessage({_id:createMessage._id})
+      if (!_.isEmpty(createMessage)) {
         res.send({
           status: STATUS.SUCCESS,
           message: MESSAGE_RESPONSE.CREATE_SUCCESS,
@@ -52,7 +52,7 @@ const MessageController = {
 ],
         };
       }
-      const messages = await MessageService.getManyMessageWithPagination(query, { skip, limit, sort: { created_at: -1} });
+      const messages = await MessageService.getManyMessage(req.body );
       res.send({
         status: STATUS.SUCCESS,
         message: MESSAGE_RESPONSE.GET_MANY_SUCCESS,

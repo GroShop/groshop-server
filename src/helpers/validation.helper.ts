@@ -159,9 +159,8 @@ export const deleteBooking = Joi.object({
 });
 
 export const createMessage = Joi.object({
-  cart: Joi.string().optional(),
+  chat: Joi.string().optional(),
 sender: Joi.string().optional(),
-receiver: Joi.array().required(),
 content: Joi.string().required(),
 
 });
@@ -169,7 +168,6 @@ content: Joi.string().required(),
 export const editMessage = Joi.object({
   message_id: Joi.string().required(),
   sender: Joi.string().optional(),
-receiver: Joi.array().optional(),
 content: Joi.string().optional(),
 
 });

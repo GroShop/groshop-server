@@ -16,9 +16,12 @@ import wishlistRoute from "./routes/v1/wishlist.route";
 import CartRoute from "./routes/v1/cart.route";
 import VoucherRoute from "./routes/v1/voucher.route";
 import BookingRoute from "./routes/v1/booking.route";
+import ChatRoute from "./routes/v1/chat.route";
+import MessageRoute from "./routes/v1/message.route";
 import { bookingCron } from "./helpers/cron.helper";
+import _ from "lodash";
 //_NR_
-
+const { instrument } = require("@socket.io/admin-ui");
 // create server
 const app = express();
 const server = http.createServer(app);
@@ -31,19 +34,31 @@ function assignId(req, res, next) {
 
 // config dotenv
 dotenv.config();
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('senderMessage',(item:any)=>{
-// if(i)
-//     if()
-//     console.log('payload',payload);
-//   io.emit('senderMessage', payload);
-
+const userJoined = [];
+io.on("connection", socket => {
+  console.log('connected');
   
-  })
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  socket.on("join-room", (chatID: any) => {
+    socket.join(chatID);
+  });
+
+  socket.on("senderMessage", (item: any,room) => {
+    console.log("item.message", room);
+
+    if(room === ''){
+      socket.broadcast.emit("receiveMessage",item);
+    }else{
+      // for(let user of item?.chat?.users){  
+      //   // if(user !== item.sender){
+          socket.to(room).emit("receiveMessage",item);
+      //   }
+      }
+    }
+        
+      
+  );
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
   });
 });
 // connect mongoose
@@ -85,6 +100,8 @@ app.use("/api/v1/wishlist", wishlistRoute);
 app.use("/api/v1/cart", CartRoute);
 app.use("/api/v1/voucher", VoucherRoute);
 app.use("/api/v1/booking", BookingRoute);
+app.use("/api/v1/chat", ChatRoute);
+app.use("/api/v1/message", MessageRoute);
 //_NRD_
 
 //Error Handling

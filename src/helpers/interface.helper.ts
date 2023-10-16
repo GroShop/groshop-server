@@ -521,7 +521,6 @@ export interface IMessage {
   _id: string | Types.ObjectId;
   cart?: string;
   sender?: string;
-receiver?: array;
   content?: string;
 
 }
@@ -530,24 +529,21 @@ export interface IPopulatedMessage {
   _id: string | Types.ObjectId;
   cart?: ICart;
   sender?: string;
-receiver?: IUser;
   content?: string;
 
 }
 
 export interface ICreateMessage {
-    cart?: string;
+    chat?: string;
   sender?: string;
-  receiver: Array<undefined>;
   content: string;
 
 }
 export interface IQueryMessage {
   _id?: string | any;
   is_deleted?: boolean;
-    cart?: string;
+    chat?: string;
   sender?: string;
-  receiver?: string;
   content?: string;
 
 }
@@ -556,9 +552,8 @@ export interface IPaginationMessage extends IPaginationResponse {
 }
 export interface IEditMessage {
   _id: string;
-    cart?: ICart;
+    chat?: IChat;
   sender?: string;
-  receiver?: IUser;
   content?: string;
 
 }
@@ -566,9 +561,8 @@ export interface IQuerySearchMessage {
   _id?: string;
   $or?: Array<object>;
   $and?: Array<object>
-    cart?: string;
+    chat?: string;
   sender?: string;
-  receiver?: string;
   content?: string;
 
 }
@@ -599,8 +593,9 @@ export interface IQueryChat {
   is_deleted?: boolean;
     isAdmin?: string;
   groupChat?: boolean;
-  users?: string;
+  users?: any;
   lastMessage?: string | any;
+  
 }
 export interface IPaginationChat extends IPaginationResponse {
   docs: IPopulatedChat[];

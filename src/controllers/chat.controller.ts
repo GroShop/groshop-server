@@ -1,4 +1,3 @@
-
 import ChatService from "../services/chat.service";
 import _ from "lodash";
 import { STATUS, CHAT_RESPONSE } from "../constants/response.constant";
@@ -8,18 +7,31 @@ import HTTP from "http-status-codes";
 const ChatController = {
   createChat: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      const getChat = await ChatService.getChat({  });
-  if(getChat) return res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.FAILED, message: CHAT_RESPONSE.ALREADY_EXIST });
-      const chat = await ChatService.createChat(req.body);
-      if (chat) {
-        res.send({
-          status: STATUS.SUCCESS,
-          message: CHAT_RESPONSE.CREATE_SUCCESS,
-          data: chat
-        });
-      } else {
+
+      const query = {
+        users: req.body.users ,
+      };
+      const getChat = await ChatService.getChat(query);
+      if(_.isEmpty(getChat)){
+        const chat = await ChatService.createChat(req.body);
+        if (chat) {
+          res.send({
+            status: STATUS.SUCCESS,
+            message: CHAT_RESPONSE.CREATE_SUCCESS,
+            data: chat,
+          });
+      }    else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.SUCCESS, message: CHAT_RESPONSE.CREATE_FAILED });
       }
+   }
+   else{
+    res.send({
+      status: STATUS.SUCCESS,
+      message: CHAT_RESPONSE.ALREADY_EXIST,
+      data: getChat,
+    });
+   }
+  
     } catch (err) {
       err.description = CHAT_RESPONSE.CREATE_FAILED;
       next(err);
@@ -27,7 +39,10 @@ const ChatController = {
   },
   getChat: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      const chat = await ChatService.getChat({ _id: req.body.chat_id });
+      const query = {
+        users: { $in: req.body.user_id },
+      };
+      const chat = await ChatService.getChat(query);
       if (!_.isEmpty(chat)) {
         res.send({ status: STATUS.SUCCESS, message: CHAT_RESPONSE.GET_SUCCESS, data: chat });
       } else {
@@ -45,12 +60,10 @@ const ChatController = {
       if (search && search.length > 0) {
         query = {
           ...query,
-          $or: [{ isAdmin: { $regex: search, $options: "i" } },
-{ groupChat: { $regex: search, $options: "i" } },
-],
+          $or: [{ isAdmin: { $regex: search, $options: "i" } }, { groupChat: { $regex: search, $options: "i" } }],
         };
       }
-      const chats = await ChatService.getManyChatWithPagination(query, { skip, limit, sort: { created_at: -1} });
+      const chats = await ChatService.getManyChatWithPagination(query, { skip, limit, sort: { created_at: -1 } });
       res.send({
         status: STATUS.SUCCESS,
         message: CHAT_RESPONSE.GET_MANY_SUCCESS,

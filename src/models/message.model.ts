@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema(
   {
-    cart: {
+    chat: {
       type: mongoose.Types.ObjectId,
-      ref: "cart",
+      ref: "chat",
     },
     sender: String,
     content: String,
