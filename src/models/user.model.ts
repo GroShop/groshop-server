@@ -27,6 +27,7 @@ const schema = new Schema(
       default_address:Boolean,
     }],
     is_deleted: { type: Boolean, default: false },
+    notification_token:String
   },
   { timestamps: { createdAt: "created_at", updatedAt: "modified_at" } }
 );

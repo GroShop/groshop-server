@@ -1,6 +1,7 @@
 
 import Chat from "../models/chat.model";
 import { ICreateChat, IChat, IPopulatedChat, IEditChat, IQueryChat, IPaginationChat, IPaginationOption } from "../helpers/interface.helper";
+import Populate from "../constants/populate.constant";
 
 const ChatService = {
   createChat: async (body: ICreateChat): Promise<IChat> => {
@@ -28,7 +29,7 @@ const ChatService = {
   getManyChatWithPagination: async (query: IQueryChat, options: IPaginationOption): Promise<IPaginationChat> => {
     query.is_deleted = false;
     const totalDocs = await Chat.find(query).count();
-    const chats: IPopulatedChat[] = await Chat.find(query).sort(options.sort).skip(options.skip).limit(options.limit).lean();
+    const chats: IPopulatedChat[] = await Chat.find(query).populate(Populate.chat).sort(options.sort).skip(options.skip).limit(options.limit).lean();
     const result: IPaginationChat = {
       docs: chats,
       skip: options.skip,

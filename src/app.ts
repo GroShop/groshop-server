@@ -1,13 +1,14 @@
 import express from "express";
-import http from "http";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import { nanoid } from "nanoid";
 import fileUpload from "express-fileupload";
-import { Server } from "socket.io";
 import connectDB from "./db";
+import http from "http";
+// @ts-expect-error
+import { fcmInit } from "./helpers/push.helper";
 
 import userRoute from "./routes/v1/user.route";
 import productRoute from "./routes/v1/product.route";
@@ -20,13 +21,11 @@ import ChatRoute from "./routes/v1/chat.route";
 import MessageRoute from "./routes/v1/message.route";
 import { bookingCron } from "./helpers/cron.helper";
 import _ from "lodash";
+import socket from "./socket";
 //_NR_
-const { instrument } = require("@socket.io/admin-ui");
 // create server
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
-
 function assignId(req, res, next) {
   req.id = nanoid(10);
   next();
@@ -34,39 +33,20 @@ function assignId(req, res, next) {
 
 // config dotenv
 dotenv.config();
-const userJoined = [];
-io.on("connection", socket => {
-  console.log('connected');
-  
-  socket.on("join-room", (chatID: any) => {
-    socket.join(chatID);
-  });
 
-  socket.on("senderMessage", (item: any,room) => {
-    console.log("item.message", room);
-
-    if(room === ''){
-      socket.broadcast.emit("receiveMessage",item);
-    }else{
-      // for(let user of item?.chat?.users){  
-      //   // if(user !== item.sender){
-          socket.to(room).emit("receiveMessage",item);
-      //   }
-      }
-    }
-        
-      
-  );
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
 // connect mongoose
 if (process.env.NODE_ENV === "test") {
   process.env.DB = process.env.TEST_DB;
 }
 connectDB();
 
+// fcmInit
+fcmInit();
+
+// socket
+socket(server);
+
+// cron
 bookingCron();
 
 app.set("view engine", "ejs");

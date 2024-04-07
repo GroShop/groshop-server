@@ -1,4 +1,3 @@
-
 import MessageService from "../services/message.service";
 import _ from "lodash";
 import { STATUS, MESSAGE_RESPONSE } from "../constants/response.constant";
@@ -9,14 +8,14 @@ import ChatService from "../services/chat.service";
 const MessageController = {
   createMessage: async (req: IRequest, res: IResponse, next: INextFunction) => {
     try {
-      const createMessage:IMessage | any = await MessageService.createMessage(req.body);
-      await ChatService.editChat({_id:req.body.chat_id},{lastMessage:createMessage._id})
-      const getMessage=await MessageService.getMessage({_id:createMessage._id})
+      const createMessage: IMessage | any = await MessageService.createMessage(req.body);
+      await ChatService.editChat({ _id: req.body.chat_id }, { lastMessage: createMessage._id });
+      const getMessage = await MessageService.getMessage({ _id: createMessage._id });
       if (!_.isEmpty(createMessage)) {
         res.send({
           status: STATUS.SUCCESS,
           message: MESSAGE_RESPONSE.CREATE_SUCCESS,
-          data: getMessage
+          data: getMessage,
         });
       } else {
         res.status(HTTP.UNPROCESSABLE_ENTITY).send({ status: STATUS.SUCCESS, message: MESSAGE_RESPONSE.CREATE_FAILED });
@@ -46,13 +45,14 @@ const MessageController = {
       if (search && search.length > 0) {
         query = {
           ...query,
-          $or: [{ cart: { $regex: search, $options: "i" } },
-{ sender: { $regex: search, $options: "i" } },
-{ content: { $regex: search, $options: "i" } },
-],
+          $or: [
+            { cart: { $regex: search, $options: "i" } },
+            { sender: { $regex: search, $options: "i" } },
+            { content: { $regex: search, $options: "i" } },
+          ],
         };
       }
-      const messages = await MessageService.getManyMessage(req.body );
+      const messages = await MessageService.getManyMessage(req.body);
       res.send({
         status: STATUS.SUCCESS,
         message: MESSAGE_RESPONSE.GET_MANY_SUCCESS,

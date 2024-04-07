@@ -23,7 +23,13 @@ const Populate = {
     }
   },
   message:{
-    path:"chat"
+    path:"chat",
+    populate : {
+      path:"users"
+    }
+  },
+  chat:{
+    path:"users"
   }
 };
 
